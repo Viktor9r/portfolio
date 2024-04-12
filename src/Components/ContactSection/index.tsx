@@ -60,7 +60,7 @@ export const ContactSection: React.FC<IProps> = () => {
 
             <ContactsLeft>
                 <div style={{ marginBottom: '24px' }}>
-                    You can contact me right now through:
+                    You can reach me right now through:
                 </div>
 
                 <ProjectSkillsDivider sx={{ marginBottom: '24px' }} />
