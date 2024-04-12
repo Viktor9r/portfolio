@@ -1,5 +1,5 @@
 {
-  "homepage": "https://username.github.io/repo-name/",
+  "homepage": ".",
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
@@ -35,11 +35,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "cp -r public/* build/ && react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "yarn run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
