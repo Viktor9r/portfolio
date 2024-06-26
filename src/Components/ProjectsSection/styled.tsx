@@ -5,7 +5,17 @@ export const StyledProjectsSection = styled('div')(() => ({
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
-    gap: '44px'
+    gap: '44px',
+
+    ['@media(max-width: 1023px)']: {
+        flexDirection: 'column',
+        paddingTop: '180px'
+    },
+
+    ['@media(max-width: 767px)']: {
+        flexDirection: 'column',
+        paddingTop: '135px'
+    },
 }))
 
 export const ProjectsTitle = styled('div')(() => ({
@@ -14,13 +24,35 @@ export const ProjectsTitle = styled('div')(() => ({
     fontWeight: 'bold',
     lineHeight: '38px',
     letterSpacing: '4px',
-    top: 120,
-    left: 0,
+    top: 100,
+    right: 0,
     zIndex: 10,
     position: 'absolute',
     ['@media(max-width: 1200px)']: {
-        fontSize: '70px',
-    }
+        fontSize: '78px',
+    },
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        fontSize: '78px',
+        top: 60
+    },
+
+    ['@media(max-width: 1023px)']: {
+        fontSize: '50px',
+        top: 100,
+        right: 0
+        // left: '50%',
+        // transform: 'translateX(-50%)'
+    },
+
+    ['@media(max-width: 767px)']: {
+        fontSize: '30px',
+        lineHeight: '40px',
+        textAlign: 'center',
+        width: '100%',
+        wordBreak: 'break-all',
+        top: 64
+    },
 }))
 
 export const ProjectsLeft = styled('div')(() => ({
@@ -28,18 +60,50 @@ export const ProjectsLeft = styled('div')(() => ({
     flexDirection: 'column',
     width: 'calc(40% - 44px)',
     fontFamily: 'Meragen, sans-serif',
-    paddingTop: '70px'
+    paddingTop: '0px',
+    zIndex: 3,
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        width: 'calc(50% - 44px)',
+    },
+
+    ['@media (max-width: 1023px)']: {
+        width: '100%',
+    },
 }))
 
 export const ProjectTitle = styled('div')(() => ({
     fontSize: '44px',
     fontWeight: 'bold',
     marginBottom: "24px",
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        fontSize: '34px',
+    },
+
+    ['@media (max-width: 1023px)']: {
+        fontSize: '28px'
+    },
+
+    ['@media(max-width: 767px)']: {
+        fontSize: '22px'
+    },
 }))
 
 export const ProjectAbout = styled('div')(() => ({
     fontSize: '18px',
-    marginBottom: '24px'
+    marginBottom: '24px',
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        fontSize: '14px',
+    },
+
+    ['@media (max-width: 1023px)']: {
+        fontSize: '18px'
+    },
+    ['@media(max-width: 767px)']: {
+        fontSize: '14px'
+    },
 }))
 
 export const ArrowButtons = styled('div')(() => ({
@@ -55,7 +119,12 @@ export const ProjectSkillsDivider = styled('div')(() => ({
     width: '100%',
     height: '2px',
     background: '#4d1caf',
-    borderRadius: '50%'
+    borderRadius: '50%',
+
+    ['@media (max-width: 1023px)']: {
+        borderRadius: 0,
+        marginBottom: '16px'
+    },
 }))
 
 export const ProjectSkills = styled('div')(() => ({
@@ -76,7 +145,15 @@ export const ProjectSkillsItem = styled('div')(() => ({
     textAlign: 'center',
     padding: '0 18px',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        fontSize: '14px',
+    },
+
+    ['@media(max-width: 767px)']: {
+        fontSize: '12px'
+    },
 }))
 
 export const ProjectLinkBlock = styled('a')(() => ({
@@ -107,6 +184,14 @@ export const ProjectLink = styled('a')(() => ({
     },
     // textDecoration: 'underline 2px #4d1caf',
     // textUnderlineOffset: '6px',
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        fontSize: '14px',
+    },
+
+    ['@media(max-width: 767px)']: {
+        fontSize: '14px'
+    },
 }))
 
 export const ArrowButton = styled(Button)(() => ({
@@ -137,6 +222,25 @@ export const ArrowButton = styled(Button)(() => ({
     },
     ['&:hover svg']: {
         fill: '#000',
+    },
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        padding: '0 34px 0 28px',
+        height: '42px',
+        fontSize: '12px'
+    },
+
+    ['@media (max-width: 1023px)']: {
+        padding: '0 40px 0 40px',
+        height: '50px',
+        fontWeight: 'bold',
+    },
+
+    ['@media (max-width: 767px)']: {
+        padding: '0 40px 0 40px',
+        height: '40px',
+        fontWeight: 'bold',
+        fontSize: '12px'
     }
 }))
 
@@ -145,9 +249,19 @@ export const ProjectsRight = styled('div')(() => ({
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: 'calc(60%)',
+    zIndex: 12,
     ['a']: {
         width: '90%'
-    }
+    },
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        width: '50%',
+    },
+
+    ['@media (max-width: 1023px)']: {
+        marginBottom: '24px',
+        width: '100%',
+    },
 }))
 
 export const ProjectImage = styled('img')(() => ({

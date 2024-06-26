@@ -9,7 +9,15 @@ export const HeaderOuterContainer = styled('div')(() => ({
     height: "70px",
     width: "100%",
     zIndex: 999,
-    transition: '0.3s'
+    transition: '0.3s',
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        height: '50px'
+    },
+
+    ['@media (max-width: 767px)']: {
+        height: '50px'
+    }
 }))
 
 export const HeaderInnerContainer = styled('div')(() => ({
@@ -20,11 +28,18 @@ export const HeaderInnerContainer = styled('div')(() => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: '40px'
+    position: 'relative',
+    gap: '40px',
+
+    ['@media (max-width: 1023px)']: {
+        padding: '0 16px'
+    }
 }))
 
 export const HeaderRightPart = styled('div')(() => ({
-    display: 'flex'
+    display: 'flex',
+    alignItems: 'center',
+    gap: '24px'
 }))
 export const HeaderLeftPart = styled('div')(() => ({
     display: 'flex'
@@ -34,13 +49,25 @@ export const HeaderLogo = styled('div')(() => ({
     fontSize: '20px',
     letterSpacing: -3,
     marginRight: '24px',
-    fontFamily: 'Neuropol, sans-serif !important'
+    fontFamily: 'Neuropol, sans-serif !important',
+    cursor: 'pointer',
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        fontSize: '16px'
+    },
+    ['@media (max-width: 1023px)']: {
+        fontSize: '16px'
+    }
 }))
 
 export const HeaderLangValue = styled('div')(() => ({
     fontSize: '16px',
     textTransform: 'uppercase',
     color: '#fff',
+    transition: '0.7s',
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        fontSize: '14px'
+    },
+    
 }))
 
 export const TopBlackLine = styled('div')(() => ({
@@ -49,7 +76,15 @@ export const TopBlackLine = styled('div')(() => ({
     position: 'absolute',
     left: '0',
     zIndex: -1,
-    transition: 'transform 0.3s ease-in-out'
+    transition: 'transform 0.3s ease-in-out',
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        height: '50px'
+    },
+
+    ['@media (max-width: 767px)']: {
+        height: '50px'
+    }
 }))
 
 // export const HeaderLangSwitch = styled(Select)(() => ({

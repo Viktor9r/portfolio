@@ -10,5 +10,14 @@ export const AppInnerContainer = styled('div')(() => ({
     maxWidth: '1440px',
     padding: '0 30px',
     margin: '0 auto',
-    height: '100%'
+    height: '100%',
+    scrollSnapType: 'y mandatory',
+    ['& div']: {
+        scrollSnapAlign: 'start'
+    },
+
+    ['@media (max-width: 1023px)']: {
+        padding: '0 16px',
+        height: 'fit-content'
+    }
 }))

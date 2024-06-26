@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, useMediaQuery } from "@mui/material";
 import { BottomBarEmailLink, BottomBarIcon, BottomBarInnerContainer, BottomBarLeftPart, BottomBarOuterContainer, BottomBarRightPart, BottomBlackLine } from "./styled"
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -6,11 +6,17 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-export const MainScreenBottomBar: React.FC = () => {
+interface IProps {
+    isBottom: boolean
+}
+
+export const MainScreenBottomBar: React.FC<IProps> = ({ isBottom }) => {
     const [topScrollValue, setTopScrollValue] = useState(0);
     const [rightPartWidth, setRightPartWidth] = useState<number>(0);
-
+    const { t } = useTranslation()
+    
     useEffect(() => {
         function handleResize() {
             const rightPart = document.getElementById('right');
@@ -48,12 +54,25 @@ export const MainScreenBottomBar: React.FC = () => {
         };
     }, []);
 
+    const mobile = useMediaQuery('(max-width: 1023px');
+
     return (
-        <BottomBarOuterContainer>
+        <BottomBarOuterContainer
+            sx={{
+                display: isBottom ? 'none' : 'block',
+                zIndex: topScrollValue > 0 ? 1 : 2
+            }}
+        >
             <BottomBlackLine
                 sx={{
-                    width: `calc(100% - ${rightPartWidth}px)`,
-                    transform: topScrollValue > 0 ? 'translateY(calc(-100vh + 70px)) scaleX(1.1)' : 'none',
+                    width: mobile ? '100%' : `calc(100% - ${rightPartWidth}px)`,
+                    transform: mobile ? "none" : topScrollValue > 0 ? 'translateY(calc(-100vh + 70px)) scaleX(1.1)' : 'none',
+
+                    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+                        transform: topScrollValue > 0 ? 'translateY(calc(-100vh + 50px)) scaleX(1.1)' : 'none',
+                    },
+
+                    visibility: topScrollValue > 0 ? mobile ? 'hidden' : 'visible' : 'visible'
                 }}
             ></BottomBlackLine>
             <BottomBarInnerContainer sx={{
@@ -67,10 +86,16 @@ export const MainScreenBottomBar: React.FC = () => {
                         to='javascript:void(0)'
                         onClick={() => window.location.href = 'mailto:viktor.riabokon.job@gmail.com'}
                     >
-                        <BottomBarIcon sx={{ mr: 0, color: 'rgba(255, 255, 255, 0.6)' }}>
+                        <BottomBarIcon sx={{
+                            mr: 0, color: 'rgba(255, 255, 255, 0.6)',
+
+                            ['@media (max-height: 799px) and (min-width: 1024px)']: {
+                                mr: 1
+                            }
+                        }}>
                             <EmailIcon />
                         </BottomBarIcon>
-                        Email me
+                        {t('email_me')}
                     </BottomBarEmailLink>
                 </BottomBarLeftPart>
                 <BottomBarRightPart id="right" sx={{

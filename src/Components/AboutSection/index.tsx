@@ -1,11 +1,14 @@
 import { Download, Save } from "@mui/icons-material";
-import { AboutImage, AboutLeftPart, AboutRightPart, AboutTopText, DownloadButton, StyledAboutSection } from "./styled"
+import { AboutImage, AboutImageOuterMobileContainer, AboutLeftPart, AboutRightPart, AboutTopText, DownloadButton, StyledAboutSection } from "./styled"
 import me from '../../resources/images/MePr.jpg'
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 interface IProps {}
 
 export const AboutSection: React.FC<IProps> = () => {
+    const { t } = useTranslation()
+
     const onSaveButtonClick = () => {
         const pdfUrl = "/documents/CV.pdf";
         const link = document.createElement("a");
@@ -16,33 +19,48 @@ export const AboutSection: React.FC<IProps> = () => {
         document.body.removeChild(link);
     };
 
+    const smallDesktop = useMediaQuery('(max-height: 799px) and (min-width: 1024px)')
+    const mobile = useMediaQuery('(max-width: 1023px)')
+    const smallMobile = useMediaQuery('(max-width: 767px)')
+
     return (
         <>
             <StyledAboutSection>
                 <AboutTopText>
-                    About
+                    {t('about')}
                 </AboutTopText>
                 <AboutLeftPart>
                     <div>
                         <b style={{
-                            fontSize: '24px'
+                            fontSize: smallMobile ? '16px' : smallDesktop ? '18px' : mobile ? '18px' : '24px'
                         }}>
-                            Experienced Web Developer with 2 and a half years of experience in Frontend and 1 year in Backend development.
+                            {t('about_first')}
                         </b>
                         <br /><br />
-                        Skilled in creating software solutions using JavaScript, TypeScript, React, Next.js. Committed to code quality, best practices, and staying updated with industry trends. A problem-solving enthusiast dedicated to delivering high-performance solutions.
+                        <div style={{
+                            fontSize: smallMobile ? '12px' : smallDesktop ? '14px' : mobile ? '14px' : '18px'
+                        }}>
+                            {t('about_second')}
+                        </div>
                     </div>
 
                     <DownloadButton
                         onClick={onSaveButtonClick}
                         startIcon={<Download />}
                     >
-                        Download My CV
+                        {t('download_cv')}
                     </DownloadButton>
                 </AboutLeftPart>
 
                 <AboutRightPart>
-                    <AboutImage src={me} />
+                    {mobile ? (
+                        <AboutImageOuterMobileContainer>
+                            <AboutImage />
+                        </AboutImageOuterMobileContainer>
+                    ) : (
+                        <AboutImage />
+                    )}
+
                 </AboutRightPart>
             </StyledAboutSection>
         </>

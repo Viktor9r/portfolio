@@ -6,10 +6,16 @@ export const StyledSkillsSection = styled('div')(() => ({
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    paddingTop: '180px',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     ['@media(max-width: 1200px)']: {
         gap: '24px'
+    },
+
+    ['@media(max-width: 767px)']: {
+        justifyContent: 'center',
+        paddingTop: 0
     }
 }))
 
@@ -23,8 +29,41 @@ export const SkillsTitle = styled('div')(() => ({
     left: 0,
     zIndex: 10,
     position: 'absolute',
+    textAlign: 'center',
+    
     ['@media(max-width: 1200px)']: {
         fontSize: '70px',
+        top: 100,
+    },
+
+    ['@media(max-width: 1023px)']: {
+        fontSize: '50px',
+        top: 100,
+        left: '50%',
+        transform: 'translateX(-50%)'
+    },
+
+    ['@media(max-width: 767px)']: {
+        fontSize: '30px',
+        lineHeight: '40px',
+        textAlign: 'center',
+        width: '100%',
+        wordBreak: 'break-all',
+        top: 54
+    },
+
+    ['& svg']: {
+        width: "50px",
+        height: '50px',
+        fill: "#fff",
+        marginRight: '10px',
+        transform: "translateY(15px)",
+
+        ['@media(max-width: 767px)']: {
+            width: "40px",
+            height: '40px',
+            transform: "translateY(15px)",
+        },
     }
 }))
 
@@ -106,12 +145,30 @@ export const SkillsMiniBlockItem = styled('div')(() => ({
 export const SideNavigation = styled('div')(() => ({
     position: 'absolute',
     top: '50%',
-    transform: 'translateY(-50%)',
+    transform: 'translateY(-60%)',
     right: 0,
     display: 'flex',
     gap: '18px',
     flexDirection: 'column',
-    color: '#fff'
+    color: '#fff',
+    zIndex: 2,
+    maxWidth: '100px',
+    alignItems: 'center',
+
+    ['@media (max-width: 1023px)']: {
+        bottom: 0,
+        right: '50%',
+        flexDirection: 'row',
+        transform: 'translateX(50%) translateY(0)',
+        maxWidth: '100%',
+        minWidth: '100%',
+        justifyContent: 'center',
+    },
+
+    ['@media (max-width: 767px)']: {
+        bottom: 0,
+        top: '80%'
+    }
 }))
 
 export const SideNavItem = styled('div')(() => ({
@@ -124,12 +181,30 @@ export const SideNavItem = styled('div')(() => ({
     ['svg']: {
         width: '64px',
         height: '64px',
+
+        ['@media (max-height: 799px) and (min-width: 1024px)']: {
+            width: '50px',
+            height: '50px'
+        },
+
+        ['@media (max-width: 767px)']: {
+            width: '50px',
+            height: '50px'
+        }
     },
     ['&:hover']: {
         fill: 'rgba(255, 255, 255, 0.8)',
         color: 'rgba(255, 255, 255, 0.8)',
         cursor: 'pointer'
     },
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        fontSize: '14px',
+    },
+
+    ['@media (max-width: 1023px)']: {
+        marginRight: '10px'
+    }
 }))
 
 export const CubeSideContainer = styled('div')(() => ({
@@ -138,7 +213,34 @@ export const CubeSideContainer = styled('div')(() => ({
     justifyContent: 'center',
     height: 'fit-content',
     gap: '12px',
-    width: '100%'
+    width: '100%',
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        gap: '2px',
+    },
+
+    ['@media (max-width: 767px)']: {
+        gap: '4px'
+    },
+
+    ['@media (max-width: 767px) and (max-height: 760px)']: {
+        gap: '0px'
+    }
+}))
+
+export const MobileSkillsContainer = styled('div')(() => ({
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    height: 'fit-content',
+    gap: '12px',
+    width: 'calc(100% - 46px)',
+    boxShadow: '0px 0px 10px 4px rgba(132, 136, 255, 1)',
+    padding: '24px',
+    transition: '0.3s',
+
+    ['@media (max-width: 767px) and (max-height: 760px)']: {
+        padding: '4px'
+    }
 }))
 
 export const SkillItem = styled('div')(() => ({
@@ -147,6 +249,7 @@ export const SkillItem = styled('div')(() => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    textAlign: 'center',
     fontSize: '16px',
     fontFamily: 'Meragen, sans-serif',
     width: 'calc(100% / 5)',
@@ -155,5 +258,28 @@ export const SkillItem = styled('div')(() => ({
         width: '58px',
         height: '58px',
         fill: '#fff',
+
+        ['@media (max-height: 799px) and (min-width: 1024px)']: {
+            width: '38px',
+            height: '38px',
+        },
+
+        ['@media (max-width: 767px)']: {
+            width: '38px',
+            height: '38px'
+        },
+
+        ['@media (max-width: 767px) and (max-height: 760px)']: {
+            width: '30px',
+            height: '30px'
+        }
     },
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        fontSize: '12px',
+    },
+
+    ['@media (max-width: 767px)']: {
+        fontSize: '12px'
+    }
 }))

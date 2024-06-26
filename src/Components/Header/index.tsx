@@ -4,22 +4,67 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Tab, Tabs, useMediaQuery } from "@mui/material";
 import { useTabNavigation } from "../../storage/useTabNavigation";
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
+import { Close } from "@mui/icons-material";
+import { ReactComponent as HomeIcon } from '../../resources/icons/home_icon.svg'
+import { ReactComponent as AboutIcon } from '../../resources/icons/about_icon.svg'
+import { ReactComponent as SkillsIcon } from '../../resources/icons/skills_icon.svg'
+import { ReactComponent as ProjectsIcon } from '../../resources/icons/projects_icon.svg'
+import { ReactComponent as ContactIcon } from '../../resources/icons/contact_icon.svg'
 
-export const AppHeader: React.FC = () => {
+import { ReactComponent as PauseIcon } from '../../resources/icons/pause_icon.svg'
+import { ReactComponent as PlayIcon } from '../../resources/icons/play_icon.svg'
+
+interface IProps {
+    homeRef: any,
+    aboutRef: any,
+    skillsRef: any,
+    projectsRef: any,
+    contactRef: any,
+    isBottom: boolean,
+    isAutoSliding: boolean,
+    setIsAutoSliding: any
+}
+
+export const AppHeader: React.FC<IProps> = ({
+    homeRef,
+    aboutRef,
+    skillsRef,
+    projectsRef,
+    contactRef,
+    isBottom,
+    isAutoSliding,
+    setIsAutoSliding
+}) => {
     const [lang, setLang] = useState(() => window.localStorage.getItem('lang') || 'EN');
     const navigate = useNavigate();
+    const { t } = useTranslation()
+
+    const [showMobileNav, setShowMobileNav] = useState(false)
+
+    useEffect(() => {
+        const savedLang = window.localStorage.getItem('lang') || 'EN';
+        const langCode = savedLang === 'EN' ? 'en' : 'fr';
+        i18n.changeLanguage(langCode);
+        setLang(savedLang); // Ensure internal state matches initial language
+    }, []);
 
     const handleChangeLang = () => {
         const newLang = lang === "EN" ? "FR" : "EN";
-        window.localStorage.setItem('lang', newLang);
-        setLang(newLang); // Update the state to trigger a re-render
+        const newLangCode = newLang === "EN" ? 'en' : 'fr';
+        i18n.changeLanguage(newLangCode).then(() => {
+            window.localStorage.setItem('lang', newLang);
+            setLang(newLang);
+        });
     }
+
 
     useEffect(() => {
         const handleStorageChange = () => {
-            const newLang = window.localStorage.getItem('lang');
-            if (newLang !== lang) {
-                setLang(newLang || 'EN');
+            const storedLang = window.localStorage.getItem('lang') || 'EN';
+            if (storedLang !== lang) {
+                setLang(storedLang);
             }
         };
 
@@ -28,9 +73,10 @@ export const AppHeader: React.FC = () => {
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
-    }, [lang]);
+    }, [lang]); // Notice, no dependency here
 
-    const mobile = useMediaQuery('(max-width: 1000px');
+
+    const mobile = useMediaQuery('(max-width: 1023px');
 
     // const [value, setValue] = useState(0);
 
@@ -38,23 +84,23 @@ export const AppHeader: React.FC = () => {
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         if (newValue == 0) {
-            navigate('/')
+            homeRef.current.scrollIntoView({ behavior: 'smooth' })
         }
         if (newValue == 1) {
-            navigate('/about')
+            aboutRef.current.scrollIntoView({ behavior: 'smooth' })
         }
         if (newValue == 2) {
-            navigate('/skills')
+            skillsRef.current.scrollIntoView({ behavior: 'smooth' })
         }
         if (newValue == 3) {
-            navigate('/projects')
+            projectsRef.current.scrollIntoView({ behavior: 'smooth' })
         }
         if (newValue == 4) {
-            navigate('/contact')
+            contactRef.current.scrollIntoView({ behavior: 'smooth' })
         }
         setValue(newValue);
     };
-    
+
     const [topScrollValue, setTopScrollValue] = useState(0);
 
     useEffect(() => {
@@ -75,75 +121,232 @@ export const AppHeader: React.FC = () => {
         };
     }, []);
 
-
+    const smallMobile = useMediaQuery('(max-width: 767px)')
 
     return (
         <HeaderOuterContainer sx={{
+            display: isBottom ? "none" : "block",
         }}>
             <TopBlackLine
                 sx={{
-                    visibility: topScrollValue == 0 ? "hidden" : "visible",
-                    width: topScrollValue > window.innerHeight - 1 ? '100%' : '50%',
+                    display: isBottom ? "none" : "block",
+                    visibility: mobile ? 'visible' : topScrollValue == 0 ? "hidden" : "visible",
+                    width: mobile ? '100%' : topScrollValue > window.innerHeight - 1 ? '100%' : '50%',
                 }}
             ></TopBlackLine>
-            <HeaderInnerContainer>
-                <HeaderLeftPart>
-                    <HeaderLogo sx={{ marginRight: 0 }}>V</HeaderLogo>
-                    <HeaderLogo>
-                        R
-                    </HeaderLogo>
-                    {mobile && (
+            <HeaderInnerContainer
+                sx={{
+                    justifyContent: isBottom ? "center" : "space-between",
+                }}
+            >
+                <HeaderLeftPart
+                    sx={{
+                        display: isBottom ? "none" : smallMobile && showMobileNav ? "none" : "flex",
+                    }}
+                    onClick={() => homeRef.current.scrollIntoView({ behavior: 'smooth' })}
+                >
+                    {!mobile && (
                         <>
-                            <MenuIcon />
+                            <HeaderLogo
+                                sx={{ marginRight: 0 }}
+                            >
+                                V
+                            </HeaderLogo>
+                            <HeaderLogo>
+                                R
+                            </HeaderLogo>
+                        </>
+                    )}
+                    {!showMobileNav && mobile && (
+                        <>
+                            <HeaderLogo
+                                sx={{ marginRight: 0 }}
+                            >
+                                V
+                            </HeaderLogo>
+                            <HeaderLogo>
+                                R
+                            </HeaderLogo>
                         </>
                     )}
                 </HeaderLeftPart>
 
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    textColor="primary"
-                    indicatorColor="secondary"
-                    aria-label="secondary tabs example"
+                {mobile && value === 2 && !showMobileNav &&  (
+                    // isAutoSliding ? (
+                    //     <PauseIcon style={{
+                    //         transform: 'scale(0.88) translateY(16px)',
+                    //     }} onClick={() => setIsAutoSliding(false)} />
+                    // ) : (
+                    //     <PlayIcon onClick={() => setIsAutoSliding(true)} />
+                    // )
+                    <>
+                        {isAutoSliding ? (
+                            <PauseIcon
+                                style={{
+                                    fill: '#fff',
+                                    width: "40px",
+                                    height: '40px',
+                                    transform: "translateY(4px) scale(0.88) translateX(-57%)",
+                                    position: 'absolute',
+                                    left: '50%',
+                                }}
+                                onClick={() => setIsAutoSliding(false)} />
+                        ) : (
+                            <PlayIcon
+                                onClick={() => setIsAutoSliding(true)}
+                                style={{
+                                    fill: '#fff',
+                                    width: "40px",
+                                    height: '40px',
+                                    transform: "translateY(4px) translateX(-50%)",
+                                    position: 'absolute',
+                                    left: '50%',
+                                }} />
+                        )}
+                    </>
+
+                )}
+
+                {
+                    !mobile && (
+                        <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            textColor="primary"
+                            indicatorColor="secondary"
+                            aria-label="secondary tabs example"
+                            sx={{
+                                height: '70px',
+                                minWidth: '50%',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                background: 'rgba(0, 0, 0, 1)',
+                                ['& button']: {
+                                    color: 'rgba(255, 255, 255, 0.6)',
+                                    fontSize: '16px',
+                                    fontFamily: 'Neuropol, sans-serif !important',
+
+                                    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+                                        fontSize: '14px'
+                                    }
+                                },
+                                ['& .MuiTabs-indicator']: {
+                                    display: 'none'
+                                },
+                                ['& .Mui-selected']: {
+                                    color: '#fff !important'
+                                },
+                                ['& .MuiTabs-scroller']: {
+                                    display: 'flex',
+                                    justifyContent: 'center'
+                                },
+
+                                ['@media (max-height: 799px) and (min-width: 1024px)']: {
+                                    height: '50px',
+                                }
+                            }}
+                        >
+                            <Tab value={0} label={t('home')} />
+                            <Tab value={1} label={t('about')} />
+                            <Tab value={2} label={t('skills')} />
+                            <Tab value={3} label={t('projects')} />
+                            <Tab value={4} label={t('contact')} />
+                        </Tabs>
+                    )
+                }
+
+                {
+                    showMobileNav && mobile && (
+                        <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            textColor="primary"
+                            indicatorColor="secondary"
+                            aria-label="secondary tabs example"
+                            sx={{
+                                height: '50px',
+                                minWidth: '50%',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                background: 'rgba(0, 0, 0, 1)',
+                                ['& button']: {
+                                    color: 'rgba(255, 255, 255, 0.6)',
+                                    fontSize: '14px',
+                                    fontFamily: 'Neuropol, sans-serif !important',
+                                    minWidth: '0',
+                                    padding: smallMobile ? '12px' : '12px 16px'
+                                },
+                                ['svg']: {
+                                    fill: 'rgba(255, 255, 255, 0.6)',
+                                    width: smallMobile ? '30px' : '40px',
+                                    height: '40px'
+                                },
+                                ['& .MuiTabs-indicator']: {
+                                    display: 'none'
+                                },
+                                ['& .Mui-selected']: {
+                                    color: '#fff !important',
+
+                                    ['svg']: {
+                                        fill: 'rgba(255, 255, 255)',
+                                    },
+                                },
+                                ['& .MuiTabs-scroller']: {
+                                    display: 'flex',
+                                    justifyContent: 'center'
+                                },
+                            }}
+                        >
+                            <Tab value={0} label={<HomeIcon style={{ transform: smallMobile ? 'scale(0.9)' : 'scale(1)' }} />} />
+                            <Tab value={1} label={<AboutIcon style={{ transform: smallMobile ? 'scale(1.1)' : 'scale(1.3)' }} />} />
+                            <Tab value={2} label={<SkillsIcon style={{ transform: smallMobile ? 'scale(1.02)' : 'scale(1.15)' }} />} />
+                            <Tab value={3} label={<ProjectsIcon style={{ transform: smallMobile ? 'scale(1.06)' : 'scale(1.18)' }} />} />
+                            <Tab value={4} label={<ContactIcon style={{ transform: smallMobile ? 'scale(1.02)' : 'scale(1.15)' }} />} />
+                        </Tabs>
+                    )
+                }
+
+                <HeaderRightPart
                     sx={{
-                        height: '70px',
-                        minWidth: '50%',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        background: 'rgba(0, 0, 0, 1)',
-                        ['& button']: {
-                            color: 'rgba(255, 255, 255, 0.6)',
-                            fontSize: '16px',
-                            fontFamily: 'Neuropol, sans-serif !important',
-                        },
-                        ['& .MuiTabs-indicator']: {
-                            display: 'none'
-                        },
-                        ['& .Mui-selected']: {
-                            color: '#fff !important'
-                        },
-                        ['& .MuiTabs-scroller']: {
-                            display: 'flex',
-                            justifyContent: 'center'
-                        }
+                        display: isBottom ? "none" : "flex",
                     }}
                 >
-                    <Tab value={0} label="Home" />
-                    <Tab value={1} label="About" />
-                    <Tab value={2} label="Skills" />
-                    <Tab value={3} label="Projects" />
-                    <Tab value={4} label="Contact" />
-                </Tabs>
+                    {!showMobileNav && (
+                        <>
+                            {mobile && (
+                                <>
+                                    <MenuIcon onClick={() => setShowMobileNav(true)} />
+                                    <HeaderLangValue
+                                        onClick={() => handleChangeLang()}
+                                        sx={{
+                                            color: mobile ? '#fff' : topScrollValue > 0 ? '#fff' : '#090909'
+                                        }}
+                                    >
+                                        {lang}
+                                    </HeaderLangValue>
+                                </>
+                            )}
+                        </>
+                    )}
 
-                <HeaderRightPart>
-                    <HeaderLangValue
-                        onClick={() => handleChangeLang()}
-                        sx={{
-                            color: topScrollValue > 0 ? '#fff' : '#090909'
-                        }}
-                    >
-                        {lang}
-                    </HeaderLangValue>
+                    {!mobile && (
+                        <HeaderLangValue
+                            onClick={() => handleChangeLang()}
+                            sx={{
+                                color: mobile ? '#fff' : topScrollValue > 0 ? '#fff' : '#090909'
+                            }}
+                        >
+                            {lang}
+                        </HeaderLangValue>
+                    )}
+                    {showMobileNav && mobile && (
+                        <>
+                            <Close
+                                onClick={() => setShowMobileNav(false)}
+                                style={{ transform: smallMobile ? 'scale(1.1) translateY(-2px)' : 'scale(1.3)' }}
+                            />
+                        </>
+                    )}
                     {/* <HeaderLangSwitch
                         open={open}
                         onClose={handleCloseLang}

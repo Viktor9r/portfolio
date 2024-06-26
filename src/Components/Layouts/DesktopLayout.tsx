@@ -14,6 +14,8 @@ import { ProjectsSection } from '../ProjectsSection';
 import { ContactSection } from '../ContactSection';
 import { useTabNavigation } from '../../storage/useTabNavigation';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { NavigationScreenComponent } from '../NavigationScreenComponent';
+import { Footer } from '../Footer';
 
 extend({ OrbitControls })
 
@@ -115,6 +117,9 @@ function AnimationCanvas() {
     const targetRef = useRef(null);
     const navigate = useNavigate();
     let location = useLocation();
+    const [showNavScreen, setShowNavScreen] = useState(false)
+    const [isBottom, setIsBottom] = useState(false)
+    const [autoRotateSkillsCube, setAutoRotateSkillsCube] = useState(true)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -129,21 +134,39 @@ function AnimationCanvas() {
     }, [])
 
     useEffect(() => {
-        if (scrollPosition >= 0 && scrollPosition < window.innerHeight && location.pathname !== '/') {
-            navigate('/')
+        if (scrollPosition >= 0 && scrollPosition < window.innerHeight * 0.75) {
+            setValue(0);
         }
-        if (!location.pathname.includes('about') && scrollPosition >= window.innerHeight && scrollPosition < window.innerHeight * 2) {
-            navigate('/about')
+        if (scrollPosition >= window.innerHeight * 0.75 && scrollPosition < window.innerHeight * 1.75) {
+            setValue(1);
         }
-        if (!location.pathname.includes('skills') && scrollPosition >= window.innerHeight * 2 && scrollPosition < window.innerHeight * 3) {
-            navigate('/skills')
+        if (scrollPosition >= window.innerHeight * 1.75 && scrollPosition < window.innerHeight * 2.75) {
+            setValue(2);
         }
-        if (!location.pathname.includes('projects') && scrollPosition >= window.innerHeight * 3 && scrollPosition < window.innerHeight * 4) {
-            navigate('/projects')
+        if (scrollPosition >= window.innerHeight * 2.75 && scrollPosition < window.innerHeight * 3.75) {
+            setValue(3);
         }
-        if (!location.pathname.includes('contact') && scrollPosition >= window.innerHeight * 4 && scrollPosition < window.innerHeight * 5) {
-            navigate('/contact')
+        if (scrollPosition >= window.innerHeight * 3.75) {
+            setValue(4);
         }
+        if (scrollPosition >= window.innerHeight * 4 + 80) {
+            setIsBottom(true);
+        }
+        if (scrollPosition < window.innerHeight * 4 + 80) {
+            setIsBottom(false);
+        }
+        // if (scrollPosition >= window.innerHeight * 0.75 && scrollPosition < window.innerHeight * 1.75) {
+        //     setValue(1)
+        // }
+        // if (scrollPosition >= window.innerHeight * 1.75 && scrollPosition < window.innerHeight * 2.75) {
+        //     setValue(2)
+        // }
+        // if (scrollPosition >= window.innerHeight * 2.75 && scrollPosition < window.innerHeight * 3.75) {
+        //     setValue(3)
+        // }
+        // if (scrollPosition >= window.innerHeight * 3.75) {
+        //     setValue(4)
+        // }
     }, [scrollPosition, setScrollPosition])
 
     const homeRef = useRef<HTMLDivElement>(null);
@@ -152,30 +175,44 @@ function AnimationCanvas() {
     const projectsRef = useRef<HTMLDivElement>(null);
     const contactRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        // Scroll to the component when it's rendered
-        if (homeRef.current && location.pathname == '/') {
-            homeRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-        if (aboutRef.current && location.pathname.includes('/about')) {
-            aboutRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-        if (skillsRef.current && location.pathname.includes('/skills')) {
-            skillsRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-        if (projectsRef.current && location.pathname.includes('/projects')) {
-            projectsRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-        if (contactRef.current && location.pathname.includes('/contact')) {
-            contactRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, []);
+    // useEffect(() => {
+    //     // Scroll to the component when it's rendered
+    //     if (homeRef.current && location.pathname == '/') {
+    //         homeRef.current.scrollIntoView({ behavior: 'smooth' });
+    //     }
+    //     if (aboutRef.current && location.pathname.includes('/about')) {
+    //         aboutRef.current.scrollIntoView({ behavior: 'smooth' });
+    //     }
+    //     if (skillsRef.current && location.pathname.includes('/skills')) {
+    //         skillsRef.current.scrollIntoView({ behavior: 'smooth' });
+    //     }
+    //     if (projectsRef.current && location.pathname.includes('/projects')) {
+    //         projectsRef.current.scrollIntoView({ behavior: 'smooth' });
+    //     }
+    //     if (contactRef.current && location.pathname.includes('/contact')) {
+    //         contactRef.current.scrollIntoView({ behavior: 'smooth' });
+    //     }
+    // }, []);
+
+
 
     return (
         <div style={{
             position: 'relative',
         }}>
-            <AppHeader />
+            {/* {showNavScreen && (
+                <NavigationScreenComponent page={"Home"} />
+            )} */}
+            <AppHeader
+                homeRef={homeRef}
+                aboutRef={aboutRef}
+                skillsRef={skillsRef}
+                projectsRef={projectsRef}
+                contactRef={contactRef}
+                isBottom={isBottom}
+                isAutoSliding={autoRotateSkillsCube}
+                setIsAutoSliding={setAutoRotateSkillsCube}
+            />
             <Canvas
                 style={{ height: '100%', position: 'absolute', zIndex: -1 }}
                 camera={{ position: [100, 190, 0], fov: 75 }}
@@ -194,16 +231,24 @@ function AnimationCanvas() {
                     <AboutSection />
                 </div>
                 <div ref={skillsRef}>
-                    <SkillsSection />
+                    <SkillsSection
+                        isAutoSliding={autoRotateSkillsCube}
+                        setIsAutoSliding={setAutoRotateSkillsCube}
+                    />
                 </div>
                 <div ref={projectsRef}>
                     <ProjectsSection />
                 </div>
-                <div ref={contactRef}>
-                    <ContactSection />
-                </div>
             </AppInnerContainer>
-            <MainScreenBottomBar />
+
+            <div ref={contactRef}>
+                <ContactSection />
+            </div>
+
+            <div>
+                <Footer />
+            </div>
+            <MainScreenBottomBar isBottom={isBottom} />
         </div>
     );
 }

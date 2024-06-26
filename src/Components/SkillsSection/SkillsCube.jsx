@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import './Cube.css';
+import './Cube.scss';
 import { CubeSideContainer, SkillItem } from './styled';
+import { useMediaQuery } from "@mui/material";
 
 export const SkillsCube = ({
   selectedId, setSelectedId, skills
 }) => {
+  const mobile = useMediaQuery('(max-width: 1023px');
+
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [rotation, setRotation] = useState({ x: 0, y: 45 });
+  const [rotation, setRotation] = useState({ x: 0, y: mobile ? -90 : 45 });
   const [autoRotation, setAutoRotation] = useState(true)
 
   useEffect(() => {
@@ -77,6 +80,42 @@ export const SkillsCube = ({
   //     return () => clearInterval(intervalId); // Cleanup on component unmount
   //   }
   // }, [autoRotation]);
+  const threshold = 100;
+
+  const [scrollDir, setScrollDir] = useState("up");
+
+  useEffect(() => {
+    let previousScrollYPosition = window.scrollY;
+
+    const scrolledMoreThanThreshold = (currentScrollYPosition) =>
+      Math.abs(currentScrollYPosition - previousScrollYPosition) > threshold;
+
+    const isScrollingUp = (currentScrollYPosition) =>
+      currentScrollYPosition > previousScrollYPosition &&
+      !(previousScrollYPosition > 0 && currentScrollYPosition === 0) &&
+      !(currentScrollYPosition > 0 && previousScrollYPosition === 0);
+
+    const updateScrollDirection = () => {
+      const currentScrollYPosition = window.scrollY;
+
+      if (scrolledMoreThanThreshold(currentScrollYPosition)) {
+        const newScrollDirection = isScrollingUp(currentScrollYPosition)
+          ? "up"
+          : "down";
+        setScrollDir(newScrollDirection);
+        previousScrollYPosition =
+          currentScrollYPosition > 0 ? currentScrollYPosition : 0;
+      }
+    };
+
+    const onScroll = () => window.requestAnimationFrame(updateScrollDirection);
+
+    window.addEventListener("scroll", onScroll);
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  console.log("scrollDir", scrollDir)
 
   return (
     <div
@@ -87,6 +126,25 @@ export const SkillsCube = ({
       // onMouseOutCapture={() => setIsDragging(false)}
       onMouseOut={() => setAutoRotation(true)}
       onMouseOver={() => setAutoRotation(false)}
+      // onScroll={() => {
+      //   if (mobile) {
+      //     if (scrollDir === "up") {
+      //       const newRotation = rotation
+
+      //       newRotation.y += 45
+
+      //       setRotation({ x: 0, y: 45 })
+      //     } else {
+      //       const newRotation = rotation
+
+      //       newRotation.y -= 45
+
+      //       setRotation(newRotation)
+      //     }
+      //   } else {
+      //     return
+      //   }
+      // }}
     >
       <div
         className="box"

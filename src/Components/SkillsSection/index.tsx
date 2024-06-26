@@ -1,4 +1,4 @@
-import { SideNavItem, SideNavigation, SkillsBlock, SkillsMiniBlock, SkillsMiniBlockContent, SkillsMiniBlockHeader, SkillsMiniBlockItem, SkillsMiniBlockLeft, SkillsMiniBlockRight, SkillsTitle, StyledSkillsSection } from "./styled"
+import { MobileSkillsContainer, SideNavItem, SideNavigation, SkillItem, SkillsBlock, SkillsMiniBlock, SkillsMiniBlockContent, SkillsMiniBlockHeader, SkillsMiniBlockItem, SkillsMiniBlockLeft, SkillsMiniBlockRight, SkillsTitle, StyledSkillsSection } from "./styled"
 import { Canvas } from "@react-three/fiber";
 
 import { ReactComponent as FrontendIcon } from '../../resources/icons/frontend.svg'
@@ -40,229 +40,340 @@ import { ReactComponent as AdaptabilityIcon } from '../../resources/icons/adapta
 import { ReactComponent as CooperationIcon } from '../../resources/icons/cooperation.svg'
 import { ReactComponent as DedicationIcon } from '../../resources/icons/dedication.svg'
 import { ReactComponent as PlanningIcon } from '../../resources/icons/planning.svg'
+import { ReactComponent as PauseIcon } from '../../resources/icons/pause_icon.svg'
+import { ReactComponent as PlayIcon } from '../../resources/icons/play_icon.svg'
 
 import { ReactComponent as ReactIcon } from '../../resources/icons/react.svg'
 import { ReactComponent as NextIcon } from '../../resources/icons/next-js.svg'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SkillsCube } from "./SkillsCube";
+import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "@mui/material";
 
-const skillsArray = [
-    {
-        id: 1,
-        type: 'Programming',
-        icon: <ProgrammingIcon />,
-        skills: [
-            {
-                title: 'JavaScript',
-                icon: <JavaScriptIcon />
-            },
-            {
-                title: 'TypeScript',
-                icon: <TypeScriptIcon />
-            },
-            // {
-            //     title: 'OOP',
-            //     icon: <OopIcon />
-            // },
-            {
-                title: 'SQL',
-                icon: <SQLIcon />
-            },
-            {
-                title: 'Flutter',
-                icon: <FlutterIcon />
-            },
-            {
-                title: 'PHP',
-                icon: <PHPIcon />
-            },
-        ]
-    },
-    {
-        id: 2,
-        type: 'Frontend',
-        icon: <FrontendIcon />,
-        skills: [
-            {
-                title: 'React',
-                icon: <ReactIcon />
-            },
-            {
-                title: 'HTML',
-                icon: <HTMLIcon />
-            },
-            {
-                title: 'CSS',
-                icon: <CSSIcon />
-            },
-            {
-                title: 'SCSS',
-                icon: <SCSSIcon />
-            },
-            {
-                title: 'Next.js',
-                icon: <NextIcon />
-            },
-            {
-                title: 'Angular',
-                icon: <AngularIcon />
-            },
-            {
-                title: 'Redux',
-                icon: <ReduxIcon />
-            },
-            // {
-            //     title: 'Zustand'
-            // },
-            {
-                title: 'Bootstrap',
-                icon: <BootstrapIcon />
-            },
-            {
-                title: 'Three.js',
-                icon: <ThreeIcon />
-            },
-            // {
-            //     title: 'Jest'
-            // },
-            // {
-            //     title: 'Styled Components'
-            // },
-            {
-                title: 'Material UI',
-                icon: <MUIIcon />
-            },
-            {
-                title: 'Accessibility',
-                icon: <AccessIcon />
-            },
-            {
-                title: 'Debugging',
-                icon: <DebugIcon />
-            },
-            {
-                title: 'MVVM',
-                icon: <MVVMIcon />
-            },
-        ]
-    },
-    {
-        id: 3,
-        type: 'Backend',
-        icon: <BackendIcon />,
-        skills: [
-            {
-                title: 'Node.js',
-                icon: <NodeIcon />
-            },
-            {
-                title: 'WebSocket',
-                icon: <WebSocketIcon />
-            },
-            {
-                title: 'AWS',
-                icon: <AWSIcon />
-            },
-            {
-                title: 'REST API',
-                icon: <APIIcon />
-            },
-            {
-                title: 'MySQL',
-                icon: <MySQLIcon />
-            },
-            {
-                title: 'PostgreSQL',
-                icon: <PostgreSQLIcon />
-            },
-            {
-                title: 'Prisma',
-                icon: <PrismaIcon />
-            },
-        ]
-    },
-    {
-        id: 4,
-        type: 'Soft Skills',
-        icon: <SoftSkillsIcon />,
-        skills: [
-            {
-                title: 'Critical thinking',
-                icon: <CriticalThinkingIcon />
-            },
-            {
-                title: 'Organized',
-                icon: <OrganizedIcon />
-            },
-            // {
-            //     title: 'Straightforward',
-            //     icon: <StraightIcon />
-            // },
-            {
-                title: 'Analytics',
-                icon: <AnalyticsIcon />
-            },
-            {
-                title: 'Detail oriented',
-                icon: <DetailIcon />
-            },
-            {
-                title: 'Team player',
-                icon: <TeamIcon />
-            },
-            {
-                title: 'Adaptability',
-                icon: <AdaptabilityIcon />
-            },
-            {
-                title: 'Cooperation',
-                icon: <CooperationIcon />
-            },
-            {
-                title: 'Dedication',
-                icon: <DedicationIcon />
-            },
-            {
-                title: 'Planning',
-                icon: <PlanningIcon />
-            },
-        ]
-    },
-]
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { ResetTv, Stop } from "@mui/icons-material";
 
-interface IProps { }
+interface IProps {
+    isAutoSliding: boolean,
+    setIsAutoSliding: any
+}
 
-export const SkillsSection: React.FC<IProps> = () => {
+export const SkillsSection: React.FC<IProps> = ({ isAutoSliding, setIsAutoSliding }) => {
+    const { t } = useTranslation()
+
+    const skillsArray = [
+        {
+            id: 1,
+            type: t('programming'),
+            icon: <ProgrammingIcon />,
+            skills: [
+                {
+                    title: 'JavaScript',
+                    icon: <JavaScriptIcon />
+                },
+                {
+                    title: 'TypeScript',
+                    icon: <TypeScriptIcon />
+                },
+                // {
+                //     title: 'OOP',
+                //     icon: <OopIcon />
+                // },
+                {
+                    title: 'SQL',
+                    icon: <SQLIcon />
+                },
+                {
+                    title: 'Flutter',
+                    icon: <FlutterIcon />
+                },
+                {
+                    title: 'PHP',
+                    icon: <PHPIcon />
+                },
+            ]
+        },
+        {
+            id: 2,
+            type: 'Frontend',
+            icon: <FrontendIcon />,
+            skills: [
+                {
+                    title: 'React',
+                    icon: <ReactIcon />
+                },
+                {
+                    title: 'HTML',
+                    icon: <HTMLIcon />
+                },
+                {
+                    title: 'CSS',
+                    icon: <CSSIcon />
+                },
+                {
+                    title: 'SCSS',
+                    icon: <SCSSIcon />
+                },
+                {
+                    title: 'Next.js',
+                    icon: <NextIcon />
+                },
+                {
+                    title: 'Angular',
+                    icon: <AngularIcon />
+                },
+                {
+                    title: 'Redux',
+                    icon: <ReduxIcon />
+                },
+                // {
+                //     title: 'Zustand'
+                // },
+                {
+                    title: 'Bootstrap',
+                    icon: <BootstrapIcon />
+                },
+                {
+                    title: 'Three.js',
+                    icon: <ThreeIcon />
+                },
+                // {
+                //     title: 'Jest'
+                // },
+                // {
+                //     title: 'Styled Components'
+                // },
+                {
+                    title: 'Material UI',
+                    icon: <MUIIcon />
+                },
+                {
+                    title: t('accessebility'),
+                    icon: <AccessIcon />
+                },
+                {
+                    title: t('debugging'),
+                    icon: <DebugIcon />
+                },
+                {
+                    title: 'MVVM',
+                    icon: <MVVMIcon />
+                },
+            ]
+        },
+        {
+            id: 3,
+            type: 'Backend',
+            icon: <BackendIcon />,
+            skills: [
+                {
+                    title: 'Node.js',
+                    icon: <NodeIcon />
+                },
+                {
+                    title: 'WebSocket',
+                    icon: <WebSocketIcon />
+                },
+                {
+                    title: 'AWS',
+                    icon: <AWSIcon />
+                },
+                {
+                    title: 'REST API',
+                    icon: <APIIcon />
+                },
+                {
+                    title: 'MySQL',
+                    icon: <MySQLIcon />
+                },
+                {
+                    title: 'PostgreSQL',
+                    icon: <PostgreSQLIcon />
+                },
+                {
+                    title: 'Prisma',
+                    icon: <PrismaIcon />
+                },
+            ]
+        },
+        {
+            id: 4,
+            type: t('soft_skills'),
+            icon: <SoftSkillsIcon />,
+            skills: [
+                {
+                    title: t('critical_thinking'),
+                    icon: <CriticalThinkingIcon />
+                },
+                {
+                    title: t('organized'),
+                    icon: <OrganizedIcon />
+                },
+                // {
+                //     title: 'Straightforward',
+                //     icon: <StraightIcon />
+                // },
+                {
+                    title: t('analytics'),
+                    icon: <AnalyticsIcon />
+                },
+                {
+                    title: t('detail_oriented'),
+                    icon: <DetailIcon />
+                },
+                {
+                    title: t('team_player'),
+                    icon: <TeamIcon />
+                },
+                {
+                    title: t('adaptability'),
+                    icon: <AdaptabilityIcon />
+                },
+                {
+                    title: t('cooperation'),
+                    icon: <CooperationIcon />
+                },
+                {
+                    title: t('dedication'),
+                    icon: <DedicationIcon />
+                },
+                {
+                    title: t('planning'),
+                    icon: <PlanningIcon />
+                },
+            ]
+        },
+    ]
+
+    const mobile = useMediaQuery('(max-width: 1023px');
+    const smallMobile = useMediaQuery('(max-width: 767px');
+
     const [hoveredId, setHoveredId] = useState(0);
-    const [selectedId, setSelectedId] = useState(0)
+    const [selectedId, setSelectedId] = useState(mobile ? 1 : 0);
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout | null = null;
+        if (isAutoSliding) {
+            interval = setInterval(() => {
+                setSelectedId((prevId) => (prevId >= 4 ? 1 : prevId + 1));
+            }, 5000);
+        }
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [isAutoSliding]);
 
     return (
         <StyledSkillsSection>
-            <SkillsTitle>Skills</SkillsTitle>
+            <SkillsTitle>
+                {
+                    selectedId == 1 && mobile && t('programming')
+                }
+                {
+                    selectedId == 2 && mobile && 'Frontend'
+                }
+                {
+                    selectedId == 3 && mobile && 'Backend'
+                }
+                {
+                    selectedId == 4 && mobile && t('soft_skills')
+                }
+                <br />
+                {selectedId !== 4 && mobile && (
+                    t('skills')
+                )}
 
-            <SkillsCube
-                selectedId={selectedId}
-                setSelectedId={setSelectedId}
-                skills={skillsArray}
-            />
+                {!mobile && !smallMobile &&  (
+                    t('skills')
+                )}
+
+                {/* {mobile && (
+                    isAutoSliding ? (
+                        <PauseIcon style={{
+                            transform: 'scale(0.88) translateY(16px)',
+                        }} onClick={() => setIsAutoSliding(false)} />
+                    ) : (
+                        <PlayIcon onClick={() => setIsAutoSliding(true)} />
+                    )
+                )} */}
+            </SkillsTitle>
+
+            {!smallMobile && (
+                <SkillsCube
+                    selectedId={selectedId}
+                    setSelectedId={setSelectedId}
+                    skills={skillsArray}
+                />
+            )}
+
+            {smallMobile && (
+
+                <MobileSkillsContainer>
+                    {skillsArray[selectedId - 1].skills.map((item) => (
+                        <SkillItem
+                            key={item.title}
+                            sx={{
+                                width: 'calc(100% / 5)'
+                            }}
+                        >
+                            {item.icon}
+                            {item.title}
+                        </SkillItem>
+                    ))}
+                </MobileSkillsContainer>
+            )}
 
             <SideNavigation>
-                {skillsArray.map((item) => (
+                {!mobile && !smallMobile && (
                     <SideNavItem
-                        onMouseOver={() => setHoveredId(0)}
-                        onMouseOut={() => setHoveredId(item.id)}
-                        key={item.id}
                         sx={{
-                            fill: selectedId == item.id ? '#fff' : 'rgba(255, 255, 255, 0.6)',
-                            color: selectedId == item.id ? '#fff' : 'rgba(255, 255, 255, 0.6)'
+                            fill: '#fff',
+                            color: '#fff',
+                            borderBottom: "1px solid #fff",
+                            paddingBottom: '18px'
                         }}
                         onClick={() => {
-                            setSelectedId(item.id)
-                        }}
+                            setIsAutoSliding(!isAutoSliding)
+                        }
+                        }
                     >
-                        {item.icon}
-                        <div>{item.type}</div>
+                        {
+                            isAutoSliding ? (
+                                <>
+                                    <PauseIcon style={{
+                                        transform: 'scale(0.88)'
+                                    }} onClick={() => setIsAutoSliding(false)} />
+                                    <div>{t('pause')}</div>
+                                </>
+                            ) : (
+                                <>
+                                    <PlayIcon onClick={() => setIsAutoSliding(true)} />
+                                    <div>{t('continue')}</div>
+                                </>
+                            )
+                        }
                     </SideNavItem>
+                )}
+                {skillsArray.map((item) => (
+                    <>
+                        <SideNavItem
+                            onMouseOver={() => setHoveredId(0)}
+                            onMouseOut={() => setHoveredId(item.id)}
+                            key={item.id}
+                            sx={{
+                                fill: selectedId == item.id ? '#fff' : 'rgba(255, 255, 255, 0.6)',
+                                color: selectedId == item.id ? '#fff' : 'rgba(255, 255, 255, 0.6)'
+                            }}
+                            onClick={() => {
+                                setSelectedId(item.id)
+                            }}
+                        >
+                            {item.icon}
+                            {!smallMobile && (
+                                <div>{item.type}</div>
+                            )}
+                        </SideNavItem>
+                    </>
                 ))}
             </SideNavigation>
             {/* <Canvas style={{width: '100%', height: 'calc(100vh - 140px)'}}>

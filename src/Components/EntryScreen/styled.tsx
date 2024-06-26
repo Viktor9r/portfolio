@@ -9,14 +9,25 @@ export const StyledEntryScreen = styled('div')(() => ({
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
+
+    ['@media (max-width: 1023px)']: {
+        padding: '0 16px'
+    }
 }))
 
 export const EntryScreenLeft = styled('div')(() => ({
     paddingRight: '10%',
-    maxWidth: 'fit-content',
+    maxWidth: '45%',
     height: '100vh',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    zIndex: 2,
+
+    ['@media (max-width: 1023px)']: {
+        maxWidth: '100%',
+        minWidth: '100%',
+        paddingRight: 0
+    }
 }))
 
 export const EntryScreenRight = styled('div')(() => ({
@@ -33,7 +44,26 @@ export const EntryScreenLeftContent = styled('div')(() => ({
     display: 'flex',
     flexDirection: 'column',
     lineHeight: '60px',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    wordBreak: 'break-word',
+
+    ['@media (max-height: 799px) and (min-width: 1024px)']: {
+        fontSize: '36px',
+        lineHeight: '48px',
+    },
+
+    ['@media (max-width: 1023px)']: {
+        background: 'rgba(0, 0, 0, 0.9)',
+        padding: '36px',
+        border: '2px solid #4d1caf',
+        boxShadow: '0px 0px 15px 10px #000000',
+        transform: 'translateX(-18px)'
+    },
+
+    ['@media (max-width: 767px)']: {
+        fontSize: '24px',
+        lineHeight: '36px'
+    },
 }))
 
 export const EntryContactButton = styled(Button)(() => ({
@@ -45,5 +75,5 @@ export const EntryContactButton = styled(Button)(() => ({
     marginTop: '24px',
     fontWeight: 600,
     color: '#fff',
-    padding: '16px 24px'
+    padding: '16px 24px',
 }))
