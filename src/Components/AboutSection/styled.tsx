@@ -161,6 +161,7 @@ export const AboutImageOuterMobileContainer = styled('div')(() => ({
     border: '4px solid #4d1caf',
     padding: '4px',
     boxShadow: '0px 0px 15px 10px #000000',
+    overflow: 'hidden',
 
     ['@media (max-width: 767px)']: {
         width: '65%'
