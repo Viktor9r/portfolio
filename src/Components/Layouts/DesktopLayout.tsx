@@ -16,100 +16,7 @@ import { useTabNavigation } from '../../storage/useTabNavigation';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NavigationScreenComponent } from '../NavigationScreenComponent';
 import { Footer } from '../Footer';
-
-extend({ OrbitControls })
-
-function CameraControls() {
-    const {
-        camera,
-        gl: { domElement }
-    } = useThree();
-
-    camera.position.set(0, 900, 100); // Adjust the Z-coordinate according to your scene
-    camera.lookAt(0, 0, 0);
-
-    return (
-        null
-    );
-}
-
-function Points() {
-    const imgTex = useLoader(THREE.TextureLoader, circleIcon);
-    const bufferRef = useRef<any>();
-
-    let t = 3;
-    let f = 0.02;
-    let a = 6;
-    const graph = useCallback((x: number, z: number) => {
-        return Math.sin(f * (x ** 2 + z ** 2 + t)) * a;
-    }, [t, f, a])
-
-    const count = 250
-    const sep = 15
-    let positions = useMemo(() => {
-        let positions = []
-
-        for (let xi = 0; xi < count; xi++) {
-            for (let zi = 0; zi < count; zi++) {
-                let x = sep * (xi - count / Math.floor(Math.random() * 4 + 5));
-                let z = sep * (zi - count / 2);
-                let y = graph(x, z);
-                positions.push(x, y, z);
-            }
-        }
-
-        return new Float32Array(positions);
-    }, [count, sep, graph])
-
-    let frameCounter = 0;
-
-    useFrame(() => {
-        frameCounter++;
-
-        if (frameCounter % 5 === 0) {
-            t += 1
-
-            const positions = bufferRef.current.array;
-
-            let i = 0;
-            for (let xi = 0; xi < count; xi++) {
-                for (let zi = 0; zi < count; zi++) {
-                    let x = sep * (xi - count / 2);
-                    let z = sep * (zi - count / 2);
-
-                    positions[i + 1] = graph(x, z);
-                    i += 3;
-                }
-            }
-            bufferRef.current.needsUpdate = true;
-
-        }
-
-    })
-    return (
-        <points>
-            <bufferGeometry attach="geometry">
-                <bufferAttribute
-                    ref={bufferRef}
-                    attach='attributes-position'
-                    array={positions}
-                    count={positions.length / 3}
-                    itemSize={3}
-                />
-            </bufferGeometry>
-
-            <pointsMaterial
-                attach="material"
-                map={imgTex}
-                color={0xFF4D1CAF}
-                size={0.75}
-                transparent={false}
-                alphaTest={0.5}
-                opacity={1.0}
-            />
-        </points>
-    )
-}
+import { TweenLite, Circ, gsap } from 'gsap';
 
 function AnimationCanvas() {
     const { value, setValue } = useTabNavigation()
@@ -155,18 +62,6 @@ function AnimationCanvas() {
         if (scrollPosition < window.innerHeight * 4 + 80) {
             setIsBottom(false);
         }
-        // if (scrollPosition >= window.innerHeight * 0.75 && scrollPosition < window.innerHeight * 1.75) {
-        //     setValue(1)
-        // }
-        // if (scrollPosition >= window.innerHeight * 1.75 && scrollPosition < window.innerHeight * 2.75) {
-        //     setValue(2)
-        // }
-        // if (scrollPosition >= window.innerHeight * 2.75 && scrollPosition < window.innerHeight * 3.75) {
-        //     setValue(3)
-        // }
-        // if (scrollPosition >= window.innerHeight * 3.75) {
-        //     setValue(4)
-        // }
     }, [scrollPosition, setScrollPosition])
 
     const homeRef = useRef<HTMLDivElement>(null);
@@ -175,34 +70,10 @@ function AnimationCanvas() {
     const projectsRef = useRef<HTMLDivElement>(null);
     const contactRef = useRef<HTMLDivElement>(null);
 
-    // useEffect(() => {
-    //     // Scroll to the component when it's rendered
-    //     if (homeRef.current && location.pathname == '/') {
-    //         homeRef.current.scrollIntoView({ behavior: 'smooth' });
-    //     }
-    //     if (aboutRef.current && location.pathname.includes('/about')) {
-    //         aboutRef.current.scrollIntoView({ behavior: 'smooth' });
-    //     }
-    //     if (skillsRef.current && location.pathname.includes('/skills')) {
-    //         skillsRef.current.scrollIntoView({ behavior: 'smooth' });
-    //     }
-    //     if (projectsRef.current && location.pathname.includes('/projects')) {
-    //         projectsRef.current.scrollIntoView({ behavior: 'smooth' });
-    //     }
-    //     if (contactRef.current && location.pathname.includes('/contact')) {
-    //         contactRef.current.scrollIntoView({ behavior: 'smooth' });
-    //     }
-    // }, []);
-
-
-
     return (
         <div style={{
             position: 'relative',
         }}>
-            {/* {showNavScreen && (
-                <NavigationScreenComponent page={"Home"} />
-            )} */}
             <AppHeader
                 homeRef={homeRef}
                 aboutRef={aboutRef}
@@ -213,15 +84,7 @@ function AnimationCanvas() {
                 isAutoSliding={autoRotateSkillsCube}
                 setIsAutoSliding={setAutoRotateSkillsCube}
             />
-            <Canvas
-                style={{ height: '100%', position: 'absolute', zIndex: -1 }}
-                camera={{ position: [100, 190, 0], fov: 75 }}
-            >
-                <Suspense fallback={null}>
-                    <Points />
-                </Suspense>
-                <CameraControls />
-            </Canvas>
+            
             <div ref={homeRef}>
                 <EntryScreen />
             </div>
@@ -256,7 +119,199 @@ function AnimationCanvas() {
 export const DesktopLayout: React.FC = () => {
     return (
         <>
+            <AnimatedBackground />
             <AnimationCanvas />
         </>
     )
 }
+
+interface Point {
+    x: number;
+    y: number;
+    originX: number;
+    originY: number;
+    active?: number;
+    circle?: Circle;
+    closest?: Point[];
+  }
+  
+  class Circle {
+    pos: Point;
+    radius: number;
+    color: string;
+    active: number | undefined;
+  
+    constructor(pos: Point, rad: number, color: string) {
+      this.pos = pos;
+      this.radius = rad;
+      this.color = color;
+      this.active = 0;
+    }
+  
+    draw(ctx: CanvasRenderingContext2D) {
+      if (!this.active) return;
+      ctx.beginPath();
+      ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI, false);
+      ctx.fillStyle = `rgba(77,28,175,${this.active})`;
+      ctx.fill();
+    }
+  }
+  
+
+  const AnimatedBackground: React.FC = () => {
+    const largeHeaderRef = useRef<HTMLDivElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const pointsRef = useRef<Point[]>([]);
+    const targetRef = useRef<Point>({ x: window.innerWidth / 2, y: window.innerHeight / 2, originX: window.innerWidth / 2, originY: window.innerHeight / 2 });
+    const animateHeaderRef = useRef(true);
+  
+    useEffect(() => {
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      const target = targetRef.current;
+      const canvas = canvasRef.current!;
+      const ctx = canvas.getContext('2d')!;
+      let points: Point[] = [];
+  
+      const initHeader = () => {
+        if (largeHeaderRef.current) {
+          largeHeaderRef.current.style.height = `${height}px`;
+        }
+        canvas.width = width;
+        canvas.height = height;
+  
+        points = [];
+        for (let x = 0; x < width; x += width / 20) {
+          for (let y = 0; y < height; y += height / 20) {
+            const px = x + Math.random() * width / 20;
+            const py = y + Math.random() * height / 20;
+            const p: Point = { x: px, originX: px, y: py, originY: py };
+            points.push(p);
+          }
+        }
+  
+        for (const p1 of points) {
+          const closest = [];
+          for (const p2 of points) {
+            if (p1 !== p2) {
+              let placed = false;
+              for (let k = 0; k < 5; k++) {
+                if (!placed) {
+                  if (!closest[k]) {
+                    closest[k] = p2;
+                    placed = true;
+                  }
+                }
+              }
+              for (let k = 0; k < 5; k++) {
+                if (!placed) {
+                  if (getDistance(p1, p2) < getDistance(p1, closest[k])) {
+                    closest[k] = p2;
+                    placed = true;
+                  }
+                }
+              }
+            }
+          }
+          p1.closest = closest;
+        }
+  
+        for (const p of points) {
+          const c = new Circle(p, 2 + Math.random() * 2, 'rgba(77,28,175,0.3)');
+          p.circle = c;
+        }
+  
+        pointsRef.current = points;
+      };
+  
+      const addListeners = () => {
+        if (!('ontouchstart' in window)) {
+          window.addEventListener('mousemove', mouseMove);
+        }
+        window.addEventListener('resize', resize);
+      };
+  
+      const mouseMove = (e: MouseEvent) => {
+        target.x = e.clientX;
+        target.y = e.clientY;
+      };
+  
+      const resize = () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        if (largeHeaderRef.current) {
+          largeHeaderRef.current.style.height = `${height}px`;
+        }
+        canvas.width = width;
+        canvas.height = height;
+      };
+  
+      const initAnimation = () => {
+        animate();
+        for (const p of points) {
+          shiftPoint(p);
+        }
+      };
+  
+      const animate = () => {
+        if (animateHeaderRef.current) {
+          ctx.clearRect(0, 0, width, height);
+          for (const p of pointsRef.current) {
+            if (Math.abs(getDistance(target, p)) < 4000) {
+              p.active = 0.3;
+              p.circle!.active = 0.6;
+            } else if (Math.abs(getDistance(target, p)) < 20000) {
+              p.active = 0.1;
+              p.circle!.active = 0.3;
+            } else if (Math.abs(getDistance(target, p)) < 40000) {
+              p.active = 0.02;
+              p.circle!.active = 0.1;
+            } else {
+              p.active = 0;
+              p.circle!.active = 0;
+            }
+            drawLines(p);
+            p.circle!.draw(ctx);
+          }
+        }
+        requestAnimationFrame(animate);
+      };
+  
+      const shiftPoint = (p: Point) => {
+        gsap.to(p, {
+          duration: 1 + 1 * Math.random(),
+          x: p.originX - 50 + Math.random() * 100,
+          y: p.originY - 50 + Math.random() * 100,
+          ease: Circ.easeInOut,
+          onComplete: () => shiftPoint(p),
+        });
+      };
+  
+      const drawLines = (p: Point) => {
+        if (!p.active) return;
+        for (const pClosest of p.closest!) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(pClosest.x, pClosest.y);
+          ctx.strokeStyle = `rgba(132, 136, 255,${p.active})`;
+          ctx.stroke();
+        }
+      };
+  
+      const getDistance = (p1: Point, p2: Point) => {
+        return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
+      };
+  
+      initHeader();
+      addListeners();
+      initAnimation();
+    }, []);
+  
+    return (
+      <div style={{position: 'fixed'}} ref={largeHeaderRef} className="large-header" id="large-header">
+        <canvas ref={canvasRef} id="demo-canvas"></canvas>
+      </div>
+    );
+  };
+
+export default AnimatedBackground;

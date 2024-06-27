@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     margin-top: 30px;
-    padding: 0px 45px;
+    padding: 0px 55px 0 45px;
     text-decoration: none;
     font-size: 28px;
     text-transform: uppercase;
@@ -82,44 +82,38 @@ path.two {
     transform: translateX(-30%);
 }
 
-.cta:hover path.three {
-    @media (min-width: 768px) {
-        animation: color_anim 1s infinite 0.2s;
-    }
-}
+// .cta:hover path.three {
+//     @media (min-width: 768px) {
+//         animation: color_anim 1s infinite 0.2s;
+//     }
+// }
 
-.cta:hover path.one {
-    @media (min-width: 768px) {
-        transform: translateX(0%);
-        animation: color_anim 1s infinite 0.6s;
-    }
-}
+// .cta:hover path.one {
+//     @media (min-width: 768px) {
+//         transform: translateX(0%);
+//         animation: color_anim 1s infinite 0.6s;
+//     }
+// }
 
-.cta:hover path.two {
-    @media (min-width: 768px) {
-        transform: translateX(0%);
-        animation: color_anim 1s infinite 0.4s;
-    }
-}
+// .cta:hover path.two {
+//     @media (min-width: 768px) {
+//         transform: translateX(0%);
+//         animation: color_anim 1s infinite 0.4s;
+//     }
+// }
 
 .cta path.three {
-    @media (max-width: 768px) {
-        animation: color_anim 1s infinite 0.2s;
-    }
+    animation: color_anim 1s infinite 0.2s;
 }
 
 .cta path.one {
-    @media (max-width: 768px) {
-        transform: translateX(0%);
-        animation: color_anim 1s infinite 0.6s;
-    }
+    transform: translateX(0%);
+    animation: color_anim 1s infinite 0.6s;
 }
 
 .cta path.two {
-    @media (max-width: 768px) {
-        transform: translateX(0%);
-        animation: color_anim 1s infinite 0.4s;
-    }
+    transform: translateX(0%);
+    animation: color_anim 1s infinite 0.4s;
 }
 
 /* SVG animations */

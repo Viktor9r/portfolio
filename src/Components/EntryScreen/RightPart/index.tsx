@@ -29,16 +29,20 @@ export const EntryScreenRightPart: React.FC<IProps> = () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-    
+
     return (
         <>
             <EntryScreenRight
                 sx={{
                     minWidth: mobile ? '100vw' : rightPartWidth,
-                    maxWidth: mobile ? '100vw' : rightPartWidth
+                    maxWidth: mobile ? '100vw' : rightPartWidth,
                 }}
             >
-                <Canvas>
+                <Canvas
+                    style={{
+                        // borderBottomLeftRadius: mobile ? '0' : '100vh'
+                    }}
+                >
                     <ambientLight />
                     <OrbitControls autoRotate autoRotateSpeed={0.35} enableRotate={mobile ? false : true} enableZoom={false} rotateSpeed={1} />
                     <Suspense fallback={null}>

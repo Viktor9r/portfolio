@@ -3,7 +3,7 @@ import { styled } from "@mui/material";
 export const FooterOuterContainer = styled('div')(() => ({
     width: '100%',
     height: '160px',
-    background: '#000',
+    background: 'transparent',
 
     ['@media (max-height: 799px) and (min-width: 1024px)']: {
         height: '90px'

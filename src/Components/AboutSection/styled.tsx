@@ -138,17 +138,16 @@ export const AboutRightPart = styled('div')(() => ({
     boxShadow: '0px 0px 15px 10px #4d1caf',
     borderRadius: '50%',
     aspectRatio: '1/1',
+    position: 'relative',
 
     ['@media (max-width: 1023px)']: {
-        minWidth: '100%',
-        maxWidth: '100%',
-        height: 'fit-content',
-        alignItems: 'center',
-        textAlign: 'center',
-        border: 'none',
-        borderRadius: '0%',
-        aspectRatio: 'auto',
-        boxShadow: 'none'
+        minWidth: '48%',
+        maxWidth: '48%',
+    },
+
+    ['@media (max-width: 767px)']: {
+        minWidth: '65%',
+        maxWidth: '65%',
     }
 }))
 
@@ -158,9 +157,9 @@ export const AboutImageOuterMobileContainer = styled('div')(() => ({
     margin: 'auto',
     aspectRatio: '1/1',
     borderRadius: '50%',
-    border: '4px solid #4d1caf',
+    border: '1px solid #4d1caf',
     padding: '4px',
-    boxShadow: '0px 0px 15px 10px #000000',
+    boxShadow: '0px 0px 15px 10px #4d1caf',
     overflow: 'hidden',
 
     ['@media (max-width: 767px)']: {
@@ -177,9 +176,11 @@ export const AboutImage = styled('div')(() => ({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'top',
     zIndex: 11,
+    position: 'absolute',
 
-    ['@media (max-width: 1023px)']: {
-        aspectRatio: '1/1',
-        borderRadius: '50%',
-    }
+    // ['@media (max-width: 1023px)']: {
+    //     width: '48%',
+    //     aspectRatio: '1/1',
+    //     borderRadius: '50%',
+    // }
 }))
