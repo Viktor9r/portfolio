@@ -1,3 +1,30 @@
+.linear-wipe {
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(to left, #FFF 20%, #4d1caf 40%, #4d1caf 60%, #FFF 80%);
+    background-size: 200% auto;
+    color: #000;
+    background-clip: text;
+    text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 2s linear infinite;
+    animation-delay: 2s;
+
+}
+
+.icon {
+    margin-left: 8px; /* Adjust as needed */
+    width: 24px;/* Ensure the icon inherits the text color */
+}
+
+@keyframes shine {
+    to {
+        background-position: -200% center;
+    }
+}
+
 .wrapper {
     display: flex;
     justify-content: center;
@@ -48,7 +75,6 @@
 .cta:hover span:nth-of-type(2) {
     @media (min-width: 768px) {
         transition: 0.5s;
-        margin-right: 45px;
     }
 }
 
@@ -103,17 +129,17 @@ path.two {
 // }
 
 .cta path.three {
-    animation: color_anim 1s infinite 0.2s;
+    animation: color_anim 2s infinite 2s;
 }
 
 .cta path.one {
     transform: translateX(0%);
-    animation: color_anim 1s infinite 0.6s;
+    animation: color_anim 2s infinite 2.8s;
 }
 
 .cta path.two {
     transform: translateX(0%);
-    animation: color_anim 1s infinite 0.4s;
+    animation: color_anim 2s infinite 2.4s;
 }
 
 /* SVG animations */

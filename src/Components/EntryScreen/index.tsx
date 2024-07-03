@@ -4,6 +4,7 @@ import { EntryScreenRightPart } from "./RightPart"
 import './styles.scss'
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
+import { ReactComponent as SendIcon } from '../../resources/icons/contact-send.svg'
 
 export const EntryScreen: React.FC = () => {
 
@@ -24,6 +25,10 @@ export const EntryScreen: React.FC = () => {
                             className="cta"
                             to='javascript:void(0)'
                             onClick={() => window.location.href = 'mailto:viktor.riabokon.job@gmail.com'}>
+                            {/* <span className="linear-wipe">
+                                {t('contact')}
+                                <SendIcon className="icon" />
+                            </span> */}
                             <span>{t('contact')}</span>
                             <span>
                                 <svg width={smallDesktop ? "40px" : smallMobile ? "30px" : "50px"} height={smallDesktop ? "30px" : smallMobile ? "24px" : "40px"} viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg">
