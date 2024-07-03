@@ -25,7 +25,7 @@ export const SkillsTitle = styled('div')(() => ({
     fontWeight: 'bold',
     lineHeight: '38px',
     letterSpacing: '4px',
-    top: 120,
+    top: 90,
     left: 0,
     zIndex: 10,
     position: 'absolute',
