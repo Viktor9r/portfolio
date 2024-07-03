@@ -1,5 +1,5 @@
 import { Download, Save } from "@mui/icons-material";
-import { AboutImage, AboutImageOuterMobileContainer, AboutLeftPart, AboutRightPart, AboutTopText, DownloadButton, StyledAboutSection } from "./styled"
+import { AboutImage, AboutImageOuterMobileContainer, AboutLeftPart, AboutRightPart, AboutRightPartShadow, AboutTopText, DownloadButton, StyledAboutSection } from "./styled"
 import me from '../../resources/images/MePr.jpg'
 import { Grid, useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -217,6 +217,7 @@ export const AboutSection: React.FC<IProps> = () => {
                 </AboutLeftPart>
 
                 <AboutRightPart ref={aboutRightPartRef}>
+                    <AboutRightPartShadow />
                     <AboutImage />
                     <WavyBackground aboutRightPartWidth={aboutRightPartWidth} waveWidth={smallMobile ? 30 : mobile ? 75 : 165} />
 

@@ -45,6 +45,7 @@ export const EntryScreenLeftContent = styled('div')(() => ({
     flexDirection: 'column',
     lineHeight: '60px',
     alignItems: 'flex-start',
+    justifyContent: 'center',
     wordBreak: 'break-word',
 
     ['@media (max-height: 799px) and (min-width: 1024px)']: {

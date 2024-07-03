@@ -134,8 +134,7 @@ export const AboutRightPart = styled('div')(() => ({
     width: '45%',
     // height: 'calc(100vh - 70px)',
     zIndex: 9,
-    border: '4px solid #4d1caf',
-    boxShadow: '0px 0px 15px 10px #4d1caf',
+    boxShadow: '0px 0px 40px 40px #4d1caf',
     borderRadius: '50%',
     aspectRatio: '1/1',
     position: 'relative',
@@ -143,12 +142,26 @@ export const AboutRightPart = styled('div')(() => ({
     ['@media (max-width: 1023px)']: {
         minWidth: '48%',
         maxWidth: '48%',
+        boxShadow: '0px 0px 20px 20px #4d1caf',
     },
 
     ['@media (max-width: 767px)']: {
         minWidth: '65%',
         maxWidth: '65%',
     }
+}))
+
+export const AboutRightPartShadow = styled('div')(() => ({
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    borderRadius: '50%',
+    aspectRatio: '1/1',
+    boxShadow: 'inset 0px 0px 40px 40px #4d1caf',
+    zIndex: 90,
+    ['@media (max-width: 1023px)']: {
+        boxShadow: 'inset 0px 0px 20px 20px #4d1caf',
+    },
 }))
 
 export const AboutImageOuterMobileContainer = styled('div')(() => ({
