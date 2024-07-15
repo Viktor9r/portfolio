@@ -7,6 +7,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import './styles.scss';
 
 interface IProps {
     isBottom: boolean
@@ -16,7 +17,7 @@ export const MainScreenBottomBar: React.FC<IProps> = ({ isBottom }) => {
     const [topScrollValue, setTopScrollValue] = useState(0);
     const [rightPartWidth, setRightPartWidth] = useState<number>(0);
     const { t } = useTranslation()
-    
+
     useEffect(() => {
         function handleResize() {
             const rightPart = document.getElementById('right');
@@ -64,15 +65,17 @@ export const MainScreenBottomBar: React.FC<IProps> = ({ isBottom }) => {
             }}
         >
             <BottomBlackLine
+                className="gradient-border"
                 sx={{
                     width: mobile ? '100%' : `calc(100% - ${rightPartWidth}px)`,
                     transform: mobile ? "none" : topScrollValue > 0 ? 'translateY(calc(-100vh + 70px)) scaleX(1.1)' : 'none',
-
                     ['@media (max-height: 799px) and (min-width: 1024px)']: {
                         transform: topScrollValue > 0 ? 'translateY(calc(-100vh + 50px)) scaleX(1.1)' : 'none',
                     },
-
-                    visibility: topScrollValue > 0 ? mobile ? 'hidden' : 'visible' : 'visible'
+                    visibility: topScrollValue > 0 ? mobile ? 'hidden' : 'visible' : 'visible',
+                    transition: '0.5s',
+                    borderTop: topScrollValue > 0 ? 'none' : mobile ? 'none' : '2px solid #4d1caf',
+                    borderLeft: topScrollValue > 0 ? 'none' : mobile ? 'none' : '2px solid #4d1caf'
                 }}
             ></BottomBlackLine>
             <BottomBarInnerContainer sx={{

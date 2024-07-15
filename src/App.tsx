@@ -14,25 +14,29 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowContent(true);
-    }, 1500); // Adjust the delay time as needed
+    }, 2500); // Adjust the delay time as needed
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <AppOuterContainer className="app">
-      {/* <div className='animation'>
-        <Suspense fallback={<ScatterBoxLoaderComponent />}>
-          <DesktopLayout />
-        </Suspense>
-      </div> */}
-
       <div className='animation'>
+        <Suspense fallback={<BoxesLoader />}>
+          {!showContent ? (
+            <BoxesLoader />
+          ) : (
+            <DesktopLayout />
+          )}
+        </Suspense>
+      </div>
+
+      {/* <div className='animation'>
         {!showContent ? (
           <BoxesLoader />
         ) : (
           <DesktopLayout />
         )}
-      </div>
+      </div> */}
     </AppOuterContainer>
   );
 }

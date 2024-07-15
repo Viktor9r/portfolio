@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { cn } from "../../utils/cn";
 import React, { useEffect, useRef, useState } from "react";
 import { createNoise3D } from "simplex-noise";
+import './styles.scss'
 
 interface IProps { }
 
@@ -209,6 +210,7 @@ export const AboutSection: React.FC<IProps> = () => {
                     </div>
 
                     <DownloadButton
+                        className="gradient-border--about"
                         onClick={onSaveButtonClick}
                         startIcon={<Download />}
                     >

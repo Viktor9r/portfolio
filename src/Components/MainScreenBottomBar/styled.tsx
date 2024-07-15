@@ -88,6 +88,7 @@ export const BottomBlackLine = styled('div')(() => ({
     position: 'absolute',
     right: '0',
     zIndex: -1,
+    boxSizing: 'border-box',
     transition: 'transform 0.5s ease-in-out',
 
     ['@media (max-height: 799px) and (min-width: 1024px)']: {

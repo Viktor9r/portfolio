@@ -80,14 +80,34 @@ export const DownloadButton = styled(Button)(() => ({
     marginTop: '24px',
     fontFamily: 'Neuropol, sans-serif',
     width: 'fit-content',
-    background: 'transparent',
-    border: '2px solid #fff',
     color: '#fff',
     padding: '0 40px 0 35px',
+    background: '#000',
     height: '50px',
     fontWeight: 'bold',
     borderBottomRightRadius: '65px',
     transition: '0.3s',
+    ['&:after']: {
+        content: '""',
+        position: 'absolute',
+        top: '-1px',
+        left: '-1px',
+        right: '-1px',
+        bottom: '-1px',
+        background: 'linear-gradient(60deg, #4d1caf, #fff, rgba(132, 136, 255, 1))',
+        borderBottomRightRadius: '46px',  // Adjust border radius with additional border width
+        zIndex: -1,
+        animation: 'animatedgradient 3s ease alternate infinite',
+        backgroundSize: '300% 300%',
+
+        ['@media (max-height: 799px) and (min-width: 1024px)']: {
+            borderBottomRightRadius: '40px',
+        },
+
+        ['@media (max-width: 1023px)']: {
+            borderBottomRightRadius: '0px',
+        },
+    },
     ['& span']: {
         transform: 'none',
     },
@@ -134,7 +154,7 @@ export const AboutRightPart = styled('div')(() => ({
     width: '45%',
     // height: 'calc(100vh - 70px)',
     zIndex: 9,
-    boxShadow: '0px 0px 40px 40px #4d1caf',
+    boxShadow: '0px 0px 30px 30px #4d1caf',
     borderRadius: '50%',
     aspectRatio: '1/1',
     position: 'relative',
@@ -157,7 +177,7 @@ export const AboutRightPartShadow = styled('div')(() => ({
     height: '100%',
     borderRadius: '50%',
     aspectRatio: '1/1',
-    boxShadow: 'inset 0px 0px 40px 40px #4d1caf',
+    boxShadow: 'inset 0px 0px 30px 30px #4d1caf',
     zIndex: 90,
     ['@media (max-width: 1023px)']: {
         boxShadow: 'inset 0px 0px 20px 20px #4d1caf',

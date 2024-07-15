@@ -366,6 +366,7 @@ export const SkillsSection: React.FC<IProps> = ({ isAutoSliding, setIsAutoSlidin
                             }}
                             onClick={() => {
                                 setSelectedId(item.id)
+                                setIsAutoSliding(false)
                             }}
                         >
                             {item.icon}

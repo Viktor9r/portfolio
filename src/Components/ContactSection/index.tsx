@@ -255,6 +255,7 @@ export const ContactSection: React.FC<IProps> = () => {
                                 sx={{
                                     borderBottomLeftRadius: '65px',
                                     width: 'fit-content',
+                                    border: '2px solid #4d1caf',
                                     ['svg']: {
                                         transform: 'translateY(-1px)'
                                     },
@@ -262,6 +263,9 @@ export const ContactSection: React.FC<IProps> = () => {
                                         boxShadow: '0px 0px 15px 10px #000000',
                                         background: 'rgba(0, 0, 0, 0.9)',
                                         borderColor: '#4d1caf'
+                                    },
+                                    ['&:after']: {
+                                        display: 'none'
                                     },
                                 }}
                                 startIcon={<Clear />}
@@ -275,6 +279,10 @@ export const ContactSection: React.FC<IProps> = () => {
                                 type="submit"
                                 endIcon={<Send />}
                                 sx={{
+                                    ['&:after']: {
+                                        display: 'none'
+                                    },
+                                    border: '2px solid #4d1caf',
                                     borderBottomRightRadius: '65px',
                                     width: 'fit-content',
                                     padding: '0 35px 0 30px',

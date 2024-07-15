@@ -23,9 +23,9 @@ export const SkillsTitle = styled('div')(() => ({
     fontFamily: 'Neuropol, sans-serif',
     fontSize: '110px',
     fontWeight: 'bold',
-    lineHeight: '38px',
+    lineHeight: '1',
     letterSpacing: '4px',
-    top: 90,
+    top: 0,
     left: 0,
     zIndex: 10,
     position: 'absolute',
@@ -33,7 +33,7 @@ export const SkillsTitle = styled('div')(() => ({
     
     ['@media(max-width: 1200px)']: {
         fontSize: '70px',
-        top: 100,
+        top: 50,
     },
 
     ['@media(max-width: 1023px)']: {

@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment } from "@react-three/drei"
 import Back from './Back'
 import { useMediaQuery } from "@mui/material"
+import { EntryScreenBottomGradient, EntryScreenSideGradient } from "./styled"
 
 interface IProps { }
 
@@ -41,6 +42,7 @@ export const EntryScreenRightPart: React.FC<IProps> = () => {
                 <Canvas
                     style={{
                         // borderBottomLeftRadius: mobile ? '0' : '100vh'
+                        borderBottomLeftRadius: mobile ? '0' : '100px'
                     }}
                 >
                     <ambientLight />
@@ -50,6 +52,22 @@ export const EntryScreenRightPart: React.FC<IProps> = () => {
                     </Suspense>
                     <Environment preset="sunset" />
                 </Canvas>
+
+                {!mobile && (
+                    <EntryScreenSideGradient
+                        sx={{
+                            right: rightPartWidth,
+                            transform: 'translateX(100%)'
+                        }}
+                    />
+                )}
+
+                <EntryScreenBottomGradient
+                    sx={{
+                        minWidth: mobile ? '100vw' : rightPartWidth,
+                        maxWidth: mobile ? '100vw' : rightPartWidth,
+                    }}
+                />
             </EntryScreenRight>
         </>
     )

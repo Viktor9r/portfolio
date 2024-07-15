@@ -90,6 +90,7 @@ export const ProjectsSection: React.FC<IProps> = () => {
     ]
 
     const mobile = useMediaQuery('(max-width: 1023px)')
+    const smallMobile = useMediaQuery('(max-width: 1023px)')
 
     const [visibleProjects, setVisibleProjects] = useState<any>([]);
     const [visibleProjectId, setVisibleProjectId] = useState(1);
@@ -163,6 +164,13 @@ export const ProjectsSection: React.FC<IProps> = () => {
                             <ArrowButton
                                 sx={{
                                     borderBottomLeftRadius: '65px',
+                                    ['&:after']: {
+                                        borderBottomLeftRadius: smallMobile ? '38px' : '46px',
+
+                                        ['@media (max-height: 799px) and (min-width: 1024px)']: {
+                                            borderBottomLeftRadius: '40px',
+                                        },
+                                    },
                                 }}
                                 startIcon={<BackIcon />}
                                 onClick={() => {
@@ -179,6 +187,13 @@ export const ProjectsSection: React.FC<IProps> = () => {
                             <ArrowButton
                                 sx={{
                                     borderBottomRightRadius: '65px',
+                                    ['&:after']: {
+                                        borderBottomRightRadius: smallMobile ? '38px' : '46px',
+
+                                        ['@media (max-height: 799px) and (min-width: 1024px)']: {
+                                            borderBottomRightRadius: '40px',
+                                        },
+                                    },
                                 }}
                                 endIcon={<NextIcon />}
                                 onClick={() => {
@@ -207,7 +222,7 @@ export const ProjectsSection: React.FC<IProps> = () => {
 
         <Environment preset="sunset" />
     </Canvas> */}
-                        <a target="_blank" href={projects.find(item => item.id == visibleProjectId)?.link}>
+                        <a style={{ minHeight: '220px' }} target="_blank" href={projects.find(item => item.id == visibleProjectId)?.link}>
                             <ProjectImage src={
                                 projects.find(item => item.id == visibleProjectId)?.image
                             } />

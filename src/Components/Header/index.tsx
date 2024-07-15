@@ -12,7 +12,7 @@ import { ReactComponent as AboutIcon } from '../../resources/icons/about_icon.sv
 import { ReactComponent as SkillsIcon } from '../../resources/icons/skills_icon.svg'
 import { ReactComponent as ProjectsIcon } from '../../resources/icons/projects_icon.svg'
 import { ReactComponent as ContactIcon } from '../../resources/icons/contact_icon.svg'
-
+import '../MainScreenBottomBar/styles.scss';
 import { ReactComponent as PauseIcon } from '../../resources/icons/pause_icon.svg'
 import { ReactComponent as PlayIcon } from '../../resources/icons/play_icon.svg'
 
@@ -124,9 +124,13 @@ export const AppHeader: React.FC<IProps> = ({
     const smallMobile = useMediaQuery('(max-width: 767px)')
 
     return (
-        <HeaderOuterContainer sx={{
-            display: isBottom ? "none" : "block",
-        }}>
+        <HeaderOuterContainer
+            className="gradient-border"
+            sx={{
+                display: isBottom ? "none" : "block",
+                borderBottom: topScrollValue > window.innerHeight ? '2px solid #4d1caf' : 'none',
+            }}
+        >
             <TopBlackLine
                 sx={{
                     display: isBottom ? "none" : "block",
@@ -171,7 +175,7 @@ export const AppHeader: React.FC<IProps> = ({
                     )}
                 </HeaderLeftPart>
 
-                {mobile && value === 2 && !showMobileNav &&  (
+                {mobile && value === 2 && !showMobileNav && (
                     // isAutoSliding ? (
                     //     <PauseIcon style={{
                     //         transform: 'scale(0.88) translateY(16px)',
