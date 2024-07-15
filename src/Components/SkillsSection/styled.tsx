@@ -1,4 +1,5 @@
 import { styled } from "@mui/material";
+import { borderRadius } from "polished";
 
 export const StyledSkillsSection = styled('div')(() => ({
     minHeight: '100vh',
@@ -203,7 +204,9 @@ export const SideNavItem = styled('div')(() => ({
     },
 
     ['@media (max-width: 1023px)']: {
-        marginRight: '10px'
+        marginRight: '10px',
+        borderRadius: '50%',
+        background: 'rgba(0, 0, 0, 1)',
     }
 }))
 
@@ -219,7 +222,7 @@ export const CubeSideContainer = styled('div')(() => ({
     },
 
     ['@media (max-width: 767px)']: {
-        gap: '4px'
+        gap: '4px',
     },
 
     ['@media (max-width: 767px) and (max-height: 760px)']: {
@@ -237,6 +240,7 @@ export const MobileSkillsContainer = styled('div')(() => ({
     boxShadow: '0px 0px 10px 4px rgba(132, 136, 255, 1)',
     padding: '24px',
     transition: '0.3s',
+    background: 'rgba(0, 0 ,0, 0.6)',
 
     ['@media (max-width: 767px) and (max-height: 760px)']: {
         padding: '4px'
