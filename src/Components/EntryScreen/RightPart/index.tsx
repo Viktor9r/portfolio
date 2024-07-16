@@ -62,6 +62,15 @@ export const EntryScreenRightPart: React.FC<IProps> = () => {
                     />
                 )}
 
+                {/* {!mobile && (
+                    <EntryScreenSideGradient
+                        sx={{
+                            right: rightPartWidth,
+                            background: 'linear-gradient(to right, transparent 0%, black 100%)',
+                        }}
+                    />
+                )} */}
+
                 <EntryScreenBottomGradient
                     sx={{
                         minWidth: mobile ? '100vw' : rightPartWidth,
