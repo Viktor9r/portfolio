@@ -145,6 +145,7 @@ export const SkillsMiniBlockItem = styled('div')(() => ({
 
 export const SideNavigation = styled('div')(() => ({
     position: 'absolute',
+    textAlign: 'center',
     top: '50%',
     transform: 'translateY(-60%)',
     right: 0,

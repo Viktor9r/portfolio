@@ -10,6 +10,11 @@ import fitofan_image from '../../resources/images/fitofan.png'
 import fitofan from '../../resources/images/macfitofan.png'
 import colo from '../../resources/images/maccolo.png'
 import coswick from '../../resources/images/maccoswick.png'
+
+import budlight from '../../resources/images/macbudlight.png'
+import corona from '../../resources/images/coronamac.png'
+import busch from '../../resources/images/buschmac.png'
+import salt from '../../resources/images/saltmac.png'
 import nova from '../../resources/images/macnova.png'
 import { useTranslation } from "react-i18next";
 
@@ -33,22 +38,22 @@ const projects = [
         skills: ["JavaScript", "TypeScript", "React", "Redux", "REST API", "Node.js", "SQL", "MySQL", "HTML", "Styled components"],
         image: coswick
     },
-    {
-        id: 3,
-        title: "IBC Colo",
-        about: "COLO Business Club. Exclusive networking, workshops & growth opportunities",
-        link: "https://ibccolo.com/",
-        skills: ["JavaScript", "TypeScript", "React", "Zustand", "WebSocket", "Node.js", "Express", "SQL", "MySQL", "Prisma", "HTML", "Material UI"],
-        image: colo
-    },
-    {
-        id: 4,
-        title: "Nova Group",
-        about: "Official distributor of European hardwood flooring products across Canada and the United States.",
-        link: "https://novagp.ca/",
-        skills: ["JavaScript", "TypeScript", "React", "Redux", "REST API", "PHP", "Three.js", "SQL", "PostgreSQL", "HTML", "SCSS"],
-        image: nova
-    },
+    // {
+    //     id: 3,
+    //     title: "IBC Colo",
+    //     about: "COLO Business Club. Exclusive networking, workshops & growth opportunities",
+    //     link: "https://ibccolo.com/",
+    //     skills: ["JavaScript", "TypeScript", "React", "Zustand", "WebSocket", "Node.js", "Express", "SQL", "MySQL", "Prisma", "HTML", "Material UI"],
+    //     image: colo
+    // },
+    // {
+    //     id: 4,
+    //     title: "Nova Group",
+    //     about: "Official distributor of European hardwood flooring products across Canada and the United States.",
+    //     link: "https://novagp.ca/",
+    //     skills: ["JavaScript", "TypeScript", "React", "Redux", "REST API", "PHP", "Three.js", "SQL", "PostgreSQL", "HTML", "SCSS"],
+    //     image: nova
+    // },
 ]
 
 export const ProjectsSection: React.FC<IProps> = () => {
@@ -71,21 +76,53 @@ export const ProjectsSection: React.FC<IProps> = () => {
             skills: ["JavaScript", "TypeScript", "React", "Redux", "REST API", "Node.js", "SQL", "MySQL", "HTML", "Styled components"],
             image: coswick
         },
+        // {
+        //     id: 3,
+        //     title: "IBC Colo",
+        //     about: t("ibc_about"),
+        //     link: "https://ibccolo.com/",
+        //     skills: ["JavaScript", "TypeScript", "React", "Zustand", "WebSocket", "Node.js", "Express", "SQL", "MySQL", "Prisma", "HTML", "Material UI"],
+        //     image: colo
+        // },
+        // {
+        //     id: 4,
+        //     title: "Nova Group",
+        //     about: t("nova_about"),
+        //     link: "https://novagp.ca/",
+        //     skills: ["JavaScript", "TypeScript", "React", "Redux", "REST API", "PHP", "Three.js", "SQL", "PostgreSQL", "HTML", "SCSS"],
+        //     image: nova
+        // },
         {
             id: 3,
-            title: "IBC Colo",
-            about: t("ibc_about"),
-            link: "https://ibccolo.com/",
-            skills: ["JavaScript", "TypeScript", "React", "Zustand", "WebSocket", "Node.js", "Express", "SQL", "MySQL", "Prisma", "HTML", "Material UI"],
-            image: colo
+            title: "Bud Light",
+            about: t("bud_about"),
+            link: "https://www.budlight.ca",
+            skills: ["Next.js", "Node.js", "Context API", "Builder.io", "Tailwind CSS"],
+            image: budlight
         },
         {
             id: 4,
-            title: "Nova Group",
-            about: t("nova_about"),
-            link: "https://novagp.ca/",
-            skills: ["JavaScript", "TypeScript", "React", "Redux", "REST API", "PHP", "Three.js", "SQL", "PostgreSQL", "HTML", "SCSS"],
-            image: nova
+            title: "Corona Extra",
+            about: t("corona_about"),
+            link: "https://www.coronaextra.ca",
+            skills: ["Next.js", "Node.js", "Context API", "Builder.io", "Tailwind CSS"],
+            image: corona
+        },
+        {
+            id: 5,
+            title: "Busch Beer",
+            about: t("busch_about"),
+            link: "https://www.buschbeer.ca",
+            skills: ["Next.js", "Node.js", "Context API", "Builder.io", "Tailwind CSS"],
+            image: busch
+        },
+        {
+            id: 6,
+            title: "Salt XC Website",
+            about: t("salt_about"),
+            link: "https://www.saltxc.com",
+            skills: ["Next.js", "Node.js", "Context API", "Contentful", "Tailwind CSS"],
+            image: salt
         },
     ]
 

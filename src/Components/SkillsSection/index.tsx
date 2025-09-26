@@ -42,6 +42,18 @@ import { ReactComponent as DedicationIcon } from '../../resources/icons/dedicati
 import { ReactComponent as PlanningIcon } from '../../resources/icons/planning.svg'
 import { ReactComponent as PauseIcon } from '../../resources/icons/pause_icon.svg'
 import { ReactComponent as PlayIcon } from '../../resources/icons/play_icon.svg'
+import { ReactComponent as TailwindIcon } from '../../resources/icons/tailwind-css.svg'
+import { ReactComponent as ExpressJSIcon } from '../../resources/icons/expressjs.svg'
+import { ReactComponent as MongoDBIcon } from '../../resources/icons/mongodb.svg'
+import { ReactComponent as NoSQLIcon } from '../../resources/icons/nosql.svg'
+import { ReactComponent as SupabaseIcon } from '../../resources/icons/supabase.svg'
+import { ReactComponent as GitIcon } from '../../resources/icons/git.svg'
+import { ReactComponent as WebpackIcon } from '../../resources/icons/webpack.svg'
+import { ReactComponent as JiraIcon } from '../../resources/icons/jira.svg'
+import { ReactComponent as ContentfulIcon } from '../../resources/icons/contentful.svg'
+import { ReactComponent as WordpressIcon } from '../../resources/icons/wordpress.svg'
+import { ReactComponent as BigCommerceIcon } from '../../resources/icons/bigcommerce.svg'
+import { ReactComponent as FigmaIcon } from '../../resources/icons/figma.svg'
 
 import { ReactComponent as ReactIcon } from '../../resources/icons/react.svg'
 import { ReactComponent as NextIcon } from '../../resources/icons/next-js.svg'
@@ -91,6 +103,34 @@ export const SkillsSection: React.FC<IProps> = ({ isAutoSliding, setIsAutoSlidin
                     title: 'PHP',
                     icon: <PHPIcon />
                 },
+                {
+                    title: 'Git',
+                    icon: <GitIcon />
+                },
+                {
+                    title: 'Webpack',
+                    icon: <WebpackIcon />
+                },
+                {
+                    title: 'Jira',
+                    icon: <JiraIcon />
+                },
+                {
+                    title: 'Contentful',
+                    icon: <ContentfulIcon />
+                },
+                {
+                    title: 'Wordpress',
+                    icon: <WordpressIcon />
+                },
+                {
+                    title: 'Bigcommerce',
+                    icon: <BigCommerceIcon />
+                },
+                {
+                    title: 'Figma',
+                    icon: <FigmaIcon />
+                },
             ]
         },
         {
@@ -101,6 +141,18 @@ export const SkillsSection: React.FC<IProps> = ({ isAutoSliding, setIsAutoSlidin
                 {
                     title: 'React',
                     icon: <ReactIcon />
+                },
+                {
+                    title: 'Next.js',
+                    icon: <NextIcon />
+                },
+                {
+                    title: 'Angular',
+                    icon: <AngularIcon />
+                },
+                {
+                    title: 'Redux',
+                    icon: <ReduxIcon />
                 },
                 {
                     title: 'HTML',
@@ -115,24 +167,21 @@ export const SkillsSection: React.FC<IProps> = ({ isAutoSliding, setIsAutoSlidin
                     icon: <SCSSIcon />
                 },
                 {
-                    title: 'Next.js',
-                    icon: <NextIcon />
+                    title: 'Bootstrap',
+                    icon: <BootstrapIcon />
                 },
                 {
-                    title: 'Angular',
-                    icon: <AngularIcon />
+                    title: 'Tailwind CSS',
+                    icon: <TailwindIcon />
                 },
                 {
-                    title: 'Redux',
-                    icon: <ReduxIcon />
+                    title: 'Material UI',
+                    icon: <MUIIcon />
                 },
                 // {
                 //     title: 'Zustand'
                 // },
-                {
-                    title: 'Bootstrap',
-                    icon: <BootstrapIcon />
-                },
+                
                 {
                     title: 'Three.js',
                     icon: <ThreeIcon />
@@ -143,10 +192,6 @@ export const SkillsSection: React.FC<IProps> = ({ isAutoSliding, setIsAutoSlidin
                 // {
                 //     title: 'Styled Components'
                 // },
-                {
-                    title: 'Material UI',
-                    icon: <MUIIcon />
-                },
                 {
                     title: t('accessebility'),
                     icon: <AccessIcon />
@@ -187,8 +232,20 @@ export const SkillsSection: React.FC<IProps> = ({ isAutoSliding, setIsAutoSlidin
                     icon: <MySQLIcon />
                 },
                 {
+                    title: 'NoSQL',
+                    icon: <NoSQLIcon />
+                },
+                {
+                    title: 'MongoDB',
+                    icon: <MongoDBIcon />
+                },
+                {
                     title: 'PostgreSQL',
                     icon: <PostgreSQLIcon />
+                },
+                {
+                    title: 'Supabase',
+                    icon: <SupabaseIcon />
                 },
                 {
                     title: 'Prisma',
